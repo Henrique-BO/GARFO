@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<header id="cabecalho-principal">
+    <a href="https://www.assai.com.br/">EQUIPE</a>
+</header>
+
+<main id="container-principal">
+    <div><img src="{% static 'logo.jpg' %}"></div> 
+    <a href="https://www.assai.com.br/"> 
+        <button>FAZER PEDIDO</button>
+    </a>
+</main>
+
+{% endblock content %}

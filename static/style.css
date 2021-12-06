@@ -1,0 +1,73 @@
+* {
+  font-family: Poppins;
+  box-sizing: border-box;
+}
+
+
+#body_roxo {
+  font-size: 24px;
+  letter-spacing: 1px;
+  background-color: rgba(99,43,171,1);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#body_roxo header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2vh ;
+}
+
+#container-principal {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+div {
+  height: 24vh;
+  width: 24vh; 
+}
+
+a, a:visited{
+  font-weight: bold;
+  text-decoration: none;
+  color: #b299d1;
+  text-shadow: 5px 10px 5px rgba(0,0,0,0.2);
+}
+
+a:hover{
+  color: white;
+}
+
+img {
+  height:100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 5px 10px 5px rgba(0,0,0,0.2);
+}
+
+button {
+  letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  background-color: #FF914D;
+  border-color: transparent;
+  border-radius: 42px;
+  padding: 16px 24px;
+  box-shadow: 5px 10px 5px rgba(0,0,0,0.2);
+
+  margin-top: 6vh;
+  margin-bottom: 10vh;
+}
+
+button:hover{
+  background-color: #c66f3a;
+  color: #d7d7d7;
+}
