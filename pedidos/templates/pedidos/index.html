@@ -8,11 +8,11 @@ GARFO
 {% block content %}
 
 <header id="cabecalho-principal">
-    <a href="https://www.assai.com.br/">EQUIPE</a>
+    <a href="{% url 'login' %}">EQUIPE</a>
 </header>
 
 <main id="container-principal">
-    <div><img src="{% static 'logo.jpg' %}"></div> 
+    <div id="img-container"><img src="{% static 'logo.jpg' %}"></div> 
     <a href="https://www.assai.com.br/"> 
         <button>FAZER PEDIDO</button>
     </a>

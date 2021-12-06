@@ -3,9 +3,8 @@
   box-sizing: border-box;
 }
 
-
 #body_roxo {
-  font-size: 24px;
+  font-size: 18px;
   letter-spacing: 1px;
   background-color: rgba(99,43,171,1);
   overflow-x: hidden;
@@ -27,9 +26,51 @@
   justify-content: center;
 }
 
-div {
-  height: 24vh;
-  width: 24vh; 
+#img-container {
+  height: 20vh;
+  width: 20vh;
+}
+
+#img-container-form {
+  height: 20vh;
+  width: 20vh;
+  margin-bottom: 4vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form input, form button {
+  margin: 16px;
+  text-transform: uppercase;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+form input {
+  border-color: transparent;
+  border-radius: 42px;
+  padding: 16px 24px;
+  box-shadow: 5px 10px 5px rgba(0,0,0,0.2);
+}
+
+form input::placeholder {
+  font-weight: bold;
+  color: #848484;
+  font-size: 16px;
+}
+
+form p label {
+  display: none;
+}
+
+#body_roxo h1 {
+  text-transform: uppercase;
+  color: #FF914D;
+  font-size: 32px;
 }
 
 a, a:visited{
@@ -52,8 +93,8 @@ img {
 }
 
 button {
+  font-size: 18px;
   letter-spacing: 1px;
-  font-size: 24px;
   font-weight: bold;
   color: white;
   cursor: pointer;
@@ -62,7 +103,6 @@ button {
   border-radius: 42px;
   padding: 16px 24px;
   box-shadow: 5px 10px 5px rgba(0,0,0,0.2);
-
   margin-top: 6vh;
   margin-bottom: 10vh;
 }
