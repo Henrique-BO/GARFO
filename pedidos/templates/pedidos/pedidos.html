@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>PEDIDOS</h1>
+
+<h2>REALIZADOS</h2>
+{% if pedidos_realizados %}
+<ul>
+    {% for pedido in pedidos_realizados %}
+        <li>{{ pedido.item.name }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h2>EM PREPARAÇÃO</h2>
+{% if pedidos_preparacao %}
+<ul>
+    {% for pedido in pedidos_preparacao %}
+        <li>{{ pedido.item.name }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h2>PRONTOS</h2>
+{% if pedidos_prontos %}
+<ul>
+    {% for pedido in pedidos_prontos %}
+        <li>{{ pedido.item.nome }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock content %}

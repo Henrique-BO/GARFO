@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+{% if item_list %}
+<ul>
+    {% for item in item_list %}
+        <li>{{ item.nome }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock content %}
