@@ -9,9 +9,15 @@ GARFO
 
 <p>{{ item.nome }}</p>
 
-<form method="POST" action="{% url 'pedidos:detail_item' item.id %}">
-    {% csrf_token %}
-    <button type="submit">Pedir</button>
-</form>
+{% if user.cliente %}
+    {% if pode_pedir %}
+        <form method="POST" action="{% url 'pedidos:detail_item' item.id %}">
+            {% csrf_token %}
+            <button type="submit">Pedir</button>
+        </form>
+    {% else %}
+        <p>Você possui uma conta em aberto. Pague-a antes de fazer outro pedido</p>
+    {% endif %}
+{% endif %}
 
 {% endblock content %}

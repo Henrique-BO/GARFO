@@ -26,7 +26,7 @@ Pedidos | GARFO
                 {% for pedido in pedidos_realizados %}
 
                 <div id="card">
-                    {{ pedido.item.name }}
+                    {{ pedido.item.nome }}
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}
@@ -46,7 +46,7 @@ Pedidos | GARFO
                 {% for pedido in pedidos_preparacao %}
 
                 <div id="card">
-                    {{ pedido.item.name }}
+                    {{ pedido.item.nome }}
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}

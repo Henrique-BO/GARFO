@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>Conta {{ conta.id }}</h1>
+
+<ul>
+    {% for pedido in conta.pedido_set.all %}
+        <li>{{ pedido.item.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% if user.garcom %}
+    <form method="POST" action="{% url 'pedidos:detail_conta' conta.id %}">
+        {% csrf_token %}
+        <button type="submit">Conta paga</button>
+    </form>
+{% endif %}
+
+{% endblock content %}

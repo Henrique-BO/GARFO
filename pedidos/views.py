@@ -5,11 +5,16 @@ from django.core.exceptions import ObjectDoesNotExist
 from accounts.models import ChefCozinha
 from pedidos.forms import ItemForm
 
-from .models import Pedido, Item
+from .models import Conta, Pedido, Item
 from accounts.models import Cliente
 
 def index(request):
     if request.user.is_authenticated:
+        try:
+            request.user.cliente
+            return HttpResponseRedirect(reverse('pedidos:cardapio'))
+        except:
+            pass
         try:
             garcom = request.user.garcom
             context = {'garcom': garcom}
@@ -52,10 +57,19 @@ def create_item(request):
 
 def detail_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
+    if request.user.is_authenticated:
+        pode_pedir = True
+        try:
+            cliente = request.user.cliente
+            for conta in Conta.objects.filter(pago=False):
+                if conta.pedido_set.all()[0].cliente == cliente:
+                    pode_pedir = False
+        except ObjectDoesNotExist:
+            pode_pedir = False
+    else:
+        pode_pedir = False
     # Cliente faz pedido
-    if request.method == 'POST':
-        # cliente = request.user.cliente
-        cliente = Cliente.objects.all()[0]
+    if pode_pedir and request.method == 'POST':
         pedido = Pedido(
             cliente=cliente,
             item=item,
@@ -63,7 +77,7 @@ def detail_item(request, item_id):
         )
         pedido.save()
         return HttpResponseRedirect(reverse('pedidos:cardapio'))
-    context = {'item': item}
+    context = {'item': item, 'pode_pedir': pode_pedir}
     return render(request, 'pedidos/detail_item.html', context)
 
 def update_item(request, item_id):
@@ -141,8 +155,34 @@ def list_pedidos(request):
     }
     return render(request, 'pedidos/pedidos.html', context)
 
-# TODO: cliente pedir conta
+def pedir_conta(request):
+    cliente = request.user.cliente
+    for conta in Conta.objects.filter(pago=False):
+        if conta.pedido_set.all()[0].cliente == cliente:
+            return HttpResponseRedirect(reverse('pedidos:detail_conta', args=(conta.id,)))
+    pedidos = Pedido.objects.filter(cliente=cliente).filter(conta=None)
+    if request.method == 'POST':
+        conta = Conta(pago=False)
+        conta.save()
+        for pedido in pedidos:
+            pedido.conta = conta
+            pedido.save()
+        return HttpResponseRedirect(reverse('pedidos:detail_conta', args=(conta.id,)))
+    context = {'pedidos': pedidos}
+    return render(request, 'pedidos/pedir_conta.html', context)
 
-# TODO: listagem e detalhamento de conta
+def detail_conta(request, conta_id):
+    conta = get_object_or_404(Conta, pk=conta_id)
+    if request.method == 'POST':
+        conta.pago = True
+        conta.save()
+        return HttpResponseRedirect(reverse('pedidos:list_contas'))
+    context = {'conta': conta}
+    return render(request, 'pedidos/detail_conta.html', context)
+
+def list_contas(request):
+    contas = Conta.objects.filter(pago=False)
+    context = {'contas': contas}
+    return render(request, 'pedidos/list_contas.html', context)
 
 # TODO: gerente alterar mesas
