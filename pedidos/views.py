@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 from accounts.models import ChefCozinha
 from pedidos.forms import ItemForm
@@ -8,6 +9,25 @@ from .models import Pedido, Item
 from accounts.models import Cliente
 
 def index(request):
+    if request.user.is_authenticated:
+        try:
+            garcom = request.user.garcom
+            context = {'garcom': garcom}
+            return render(request, 'pedidos/garcom.html', context)
+        except ObjectDoesNotExist:
+            pass
+        try:
+            chefcozinha = request.user.chefcozinha
+            context = {'chefcozinha': chefcozinha}
+            return render(request, 'pedidos/chefcozinha.html', context)
+        except ObjectDoesNotExist:
+            pass
+        try:
+            gerente = request.user.gerente
+            context = {'gerente': gerente}
+            return render(request, 'pedidos/gerente.html', context)
+        except ObjectDoesNotExist:
+            pass
     context = {}
     return render(request,'pedidos/index.html', context)
 
@@ -82,10 +102,38 @@ def delete_item(request, item_id):
     return render(request, 'pedidos/delete_item.html', context)
 
 def list_pedidos(request):
+    if request.method == 'POST':
+        if 'preparando' in request.POST:
+            pedido_id = request.POST['pedido_id']
+            pedido = Pedido.objects.get(pk=pedido_id)
+            try:
+                chefcozinha = request.user.chefcozinha
+                pedido.chefcozinha = chefcozinha
+                pedido.save()
+            except ObjectDoesNotExist:
+                pass
+        if 'pronto' in request.POST:
+            pedido_id = request.POST['pedido_id']
+            pedido = Pedido.objects.get(pk=pedido_id)
+            try:
+                pedido.pronto = True
+                pedido.save()
+            except ObjectDoesNotExist:
+                pass
+        if 'entregue' in request.POST:
+            pedido_id = request.POST['pedido_id']
+            pedido = Pedido.objects.get(pk=pedido_id)
+            try:
+                garcom = request.user.garcom
+                pedido.garcom = garcom
+                pedido.save()
+            except ObjectDoesNotExist:
+                pass
+        return HttpResponseRedirect(reverse('pedidos:pedidos'))
+    
     pedidos_realizados = Pedido.objects.filter(chefcozinha=None)
     pedidos_preparacao = Pedido.objects.filter(pronto=False).exclude(chefcozinha=None)
     pedidos_prontos = Pedido.objects.filter(pronto=True).exclude(chefcozinha=None).filter(garcom=None)
-    # TODO: botões de alterar estado dos pedidos
     context = {
         'pedidos_realizados': pedidos_realizados,
         'pedidos_preparacao': pedidos_preparacao,
@@ -98,6 +146,3 @@ def list_pedidos(request):
 # TODO: listagem e detalhamento de conta
 
 # TODO: gerente alterar mesas
-
-# TODO: tela inicial de cada usuário
-

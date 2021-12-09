@@ -8,13 +8,14 @@ GARFO
 {% block content %}
 
 <header id="cabecalho-principal">
-    <a href="{% url 'login' %}">EQUIPE</a>
+    <a href="{% url 'logout' %}">SAIR</a>
 </header>
 
 <main id="container-principal">
+    <h1>Chef de Cozinha</h1>
     <div id="img-container"><img src="{% static 'logo.jpg' %}"></div> 
-    <a href="{% url 'pedidos:cardapio' %}"> 
-        <button>FAZER PEDIDO</button>
+    <a href="{% url 'pedidos:pedidos' %}"> 
+        <button>PEDIDOS</button>
     </a>
 </main>
 

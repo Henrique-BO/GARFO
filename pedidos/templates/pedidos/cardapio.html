@@ -10,7 +10,7 @@ GARFO
 {% if item_list %}
 <ul>
     {% for item in item_list %}
-        <li>{{ item.nome }}</li>
+        <li><a href="{% url 'pedidos:detail_item' item.id %}">{{ item.nome }}</a></li>
     {% endfor %}
 </ul>
 {% endif %}

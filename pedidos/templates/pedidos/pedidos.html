@@ -14,6 +14,13 @@ GARFO
 <ul>
     {% for pedido in pedidos_realizados %}
         <li>{{ pedido.item.nome }}</li>
+        {% if user.chefcozinha %}
+            <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                {% csrf_token %}
+                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                <button name="preparando" type="submit">Preparando</button>
+            </form>
+        {% endif %}
     {% endfor %}
 </ul>
 {% endif %}
@@ -23,6 +30,13 @@ GARFO
 <ul>
     {% for pedido in pedidos_preparacao %}
         <li>{{ pedido.item.nome }}</li>
+        {% if user.chefcozinha %}
+            <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                {% csrf_token %}
+                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                <button name="pronto" type="submit">Pronto</button>
+            </form>
+        {% endif %}
     {% endfor %}
 </ul>
 {% endif %}
@@ -32,6 +46,13 @@ GARFO
 <ul>
     {% for pedido in pedidos_prontos %}
         <li>{{ pedido.item.nome }}</li>
+        {% if user.garcom %}
+            <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                {% csrf_token %}
+                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                <button name="entregue" type="submit">Entregue</button>
+            </form>
+        {% endif %}
     {% endfor %}
 </ul>
 {% endif %}
