@@ -1,60 +1,87 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load static %}
 
 {% block title %}
-GARFO
+Pedidos | GARFO
 {% endblock title %}
 
 {% block content %}
 
-<h1>PEDIDOS</h1>
+<header> 
+    <a id="return-button" href="https://www.assai.com.br/"><img src=""></a> 
+    <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
+    <a id="exit-button" href="https://www.assai.com.br/"><img src=""></a> 
+</header>
 
-<h2>REALIZADOS</h2>
-{% if pedidos_realizados %}
-<ul>
-    {% for pedido in pedidos_realizados %}
-        <li>{{ pedido.item.nome }}</li>
-        {% if user.chefcozinha %}
-            <form method="POST" action="{% url 'pedidos:pedidos' %}">
-                {% csrf_token %}
-                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
-                <button name="preparando" type="submit">Preparando</button>
-            </form>
-        {% endif %}
-    {% endfor %}
-</ul>
-{% endif %}
+<main id="container-central">
 
-<h2>EM PREPARAÇÃO</h2>
-{% if pedidos_preparacao %}
-<ul>
-    {% for pedido in pedidos_preparacao %}
-        <li>{{ pedido.item.nome }}</li>
-        {% if user.chefcozinha %}
-            <form method="POST" action="{% url 'pedidos:pedidos' %}">
-                {% csrf_token %}
-                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
-                <button name="pronto" type="submit">Pronto</button>
-            </form>
-        {% endif %}
-    {% endfor %}
-</ul>
-{% endif %}
 
-<h2>PRONTOS</h2>
-{% if pedidos_prontos %}
-<ul>
-    {% for pedido in pedidos_prontos %}
-        <li>{{ pedido.item.nome }}</li>
-        {% if user.garcom %}
-            <form method="POST" action="{% url 'pedidos:pedidos' %}">
-                {% csrf_token %}
-                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
-                <button name="entregue" type="submit">Entregue</button>
-            </form>
-        {% endif %}
-    {% endfor %}
-</ul>
-{% endif %}
+    <span>PEDIDOS</span>
+    
+    <section id="container-inner">
+
+        <article> 
+            <p>REALIZADOS</p>
+            {% if pedidos_realizados %}
+                {% for pedido in pedidos_realizados %}
+
+                <div id="card">
+                    {{ pedido.item.name }}
+                    {% if user.chefcozinha %}
+                        <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                            <button name="preparando" type="submit">Preparando</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                {% endfor %}
+            {% endif %}
+        </article>
+
+        <article> 
+            <p>EM PREPARAÇÃO</p>
+            {% if pedidos_preparacao %}
+                {% for pedido in pedidos_preparacao %}
+
+                <div id="card">
+                    {{ pedido.item.name }}
+                    {% if user.chefcozinha %}
+                        <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                            <button name="pronto" type="submit">Pronto</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                {% endfor %}
+            {% endif %}
+        </article>
+
+        <article> 
+            <p>PRONTOS</p>
+            {% if pedidos_prontos %}
+                {% for pedido in pedidos_prontos %}
+
+                <div id="card">
+                    {{ pedido.item.nome }}
+                    {% if user.garcom %}
+                        <form method="POST" action="{% url 'pedidos:pedidos' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                            <button name="entregue" type="submit">Entregue</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                {% endfor %}
+            {% endif %}
+        </article>
+
+    </section>
+
+</main>
 
 {% endblock content %}
