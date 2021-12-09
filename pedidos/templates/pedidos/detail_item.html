@@ -9,4 +9,9 @@ GARFO
 
 <p>{{ item.nome }}</p>
 
+<form method="POST" action="{% url 'pedidos:detail_item' item.id %}">
+    {% csrf_token %}
+    <button type="submit">Pedir</button>
+</form>
+
 {% endblock content %}

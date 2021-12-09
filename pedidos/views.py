@@ -5,6 +5,7 @@ from accounts.models import ChefCozinha
 from pedidos.forms import ItemForm
 
 from .models import Pedido, Item
+from accounts.models import Cliente
 
 def index(request):
     context = {}
@@ -31,6 +32,17 @@ def create_item(request):
 
 def detail_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
+    # Cliente faz pedido
+    if request.method == 'POST':
+        # cliente = request.user.cliente
+        cliente = Cliente.objects.all()[0]
+        pedido = Pedido(
+            cliente=cliente,
+            item=item,
+            pronto=False
+        )
+        pedido.save()
+        return HttpResponseRedirect(reverse('pedidos:cardapio'))
     context = {'item': item}
     return render(request, 'pedidos/detail_item.html', context)
 
@@ -73,9 +85,19 @@ def list_pedidos(request):
     pedidos_realizados = Pedido.objects.filter(chefcozinha=None)
     pedidos_preparacao = Pedido.objects.filter(pronto=False).exclude(chefcozinha=None)
     pedidos_prontos = Pedido.objects.filter(pronto=True).exclude(chefcozinha=None).filter(garcom=None)
+    # TODO: botões de alterar estado dos pedidos
     context = {
         'pedidos_realizados': pedidos_realizados,
         'pedidos_preparacao': pedidos_preparacao,
         'pedidos_prontos': pedidos_prontos,
     }
     return render(request, 'pedidos/pedidos.html', context)
+
+# TODO: cliente pedir conta
+
+# TODO: listagem e detalhamento de conta
+
+# TODO: gerente alterar mesas
+
+# TODO: tela inicial de cada usuário
+

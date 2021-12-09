@@ -13,7 +13,7 @@ GARFO
 {% if pedidos_realizados %}
 <ul>
     {% for pedido in pedidos_realizados %}
-        <li>{{ pedido.item.name }}</li>
+        <li>{{ pedido.item.nome }}</li>
     {% endfor %}
 </ul>
 {% endif %}
@@ -22,7 +22,7 @@ GARFO
 {% if pedidos_preparacao %}
 <ul>
     {% for pedido in pedidos_preparacao %}
-        <li>{{ pedido.item.name }}</li>
+        <li>{{ pedido.item.nome }}</li>
     {% endfor %}
 </ul>
 {% endif %}
