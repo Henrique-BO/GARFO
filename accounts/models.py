@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from cpf_field.models import CPFField
 
 
 class Cliente(models.Model):
@@ -8,7 +9,7 @@ class Cliente(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Usuário"
     )
-    cpf = models.IntegerField(verbose_name="CPF")
+    cpf = CPFField(verbose_name="CPF")
     mesa = models.ForeignKey("pedidos.Mesa", on_delete=models.CASCADE, verbose_name="Mesa")
 
     def __str__(self):

@@ -7,6 +7,17 @@ GARFO
 
 {% block content %}
 
+<header id="cabecalho-principal">
+    {% if user.is_authenticated %}
+        {% if user.cliente %}
+            <a href="{% url 'pedidos:pedir_conta' %}">CONTA</a>
+        {% endif %}
+        <a href="{% url 'logout' %}">SAIR</a>
+    {% endif %}
+</header>
+
+<h1>Cardápio</h1>
+
 {% if item_list %}
 <ul>
     {% for item in item_list %}

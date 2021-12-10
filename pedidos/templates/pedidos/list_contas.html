@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>Contas</h1>
+
+{% if contas %}
+    <ul>
+        {% for conta in contas %}
+            <li><a href="{% url 'pedidos:detail_conta' conta.id %}">Conta {{ conta.id }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock content %}

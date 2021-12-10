@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pedidos.apps.PedidosConfig',
     'accounts.apps.AccountsConfig',
+    'cpf_field'
 ]
 
 MIDDLEWARE = [

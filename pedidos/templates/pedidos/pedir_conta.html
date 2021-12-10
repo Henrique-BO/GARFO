@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>Consumo</h1>
+
+{% if user.cliente %}
+    {% if pedidos %}
+        <ul>
+            {% for pedido in pedidos %}
+                <li>{{ pedido.item.nome }}</li>
+            {% endfor %}
+        </ul>
+        <form method="POST" action="{% url 'pedidos:pedir_conta' %}">
+            {% csrf_token %}
+            <button type="submit">Pedir Conta</button>
+        </form>
+    {% else %}
+        <p>Você não pediu nada ainda</p>
+    {% endif %}
+{% endif %}
+        
+
+{% endblock content %}
