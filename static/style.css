@@ -150,7 +150,7 @@
 
   padding: 3vh;
   width: 40vh;
-  height: 12vh;
+  max-height: 20vh;
   margin-bottom: 20px;
 }
 
@@ -160,7 +160,6 @@
   text-transform: uppercase; 
   margin: 0;
   display: grid;
-  align-content: center;
   overflow-y:auto;
 }
 
