@@ -1,0 +1,30 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+Entrar
+{% endblock title %}
+
+{% block content %}
+<h1>Entrar</h1>
+
+{% if form.errors %}
+<p>Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+{% endif %}
+
+{% if next %}
+{% if user.is_authenticated %}
+<p>Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
+{% else %}
+<p>Faça o login para ver esta página.</p>
+{% endif %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Entrar</button>
+</form>
+
+<p> Não tem uma conta?<a href="{% url 'accounts:client_signup_user' %}">Cadastre-se!</a></p>
+
+{% endblock %}
