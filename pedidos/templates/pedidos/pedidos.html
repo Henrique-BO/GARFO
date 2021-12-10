@@ -51,7 +51,7 @@ Pedidos | GARFO
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}
                             <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
-                            <button name="pronto" type="submit">Pronto</button>
+                            <button name="pronto" type="submit"><img src="{% static 'check.svg' %}"></button>
                         </form>
                     {% endif %}
                 </div>
@@ -71,7 +71,7 @@ Pedidos | GARFO
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}
                             <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
-                            <button name="entregue" type="submit">Entregue</button>
+                            <button name="entregue" type="submit"><img src="{% static 'check.svg' %}"></button>
                         </form>
                     {% endif %}
                 </div>
