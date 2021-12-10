@@ -3,9 +3,9 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 from accounts.models import ChefCozinha
-from pedidos.forms import ItemForm
+from pedidos.forms import ItemForm, MesaForm
 
-from .models import Conta, Pedido, Item
+from .models import Conta, Mesa, Pedido, Item
 from accounts.models import Cliente
 
 def index(request):
@@ -107,14 +107,6 @@ def update_item(request, item_id):
     context = {'item_form': item_form, 'item': item}
     return render(request, 'pedidos/update_item.html', context)
 
-def delete_item(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    if request.method == 'POST':
-        item.delete()
-        return HttpResponseRedirect(reverse('pedidos:index'))
-    context = {'item': item}
-    return render(request, 'pedidos/delete_item.html', context)
-
 def list_pedidos(request):
     if request.method == 'POST':
         if 'preparando' in request.POST:
@@ -185,4 +177,50 @@ def list_contas(request):
     context = {'contas': contas}
     return render(request, 'pedidos/list_contas.html', context)
 
-# TODO: gerente alterar mesas
+def list_mesas(request):
+    mesas_disp = Mesa.objects.filter(disponivel=True)
+    mesas_indisp = Mesa.objects.filter(disponivel=False)
+    context = {'mesas_disp': mesas_disp, 'mesas_indisp': mesas_indisp}
+    return render(request, 'pedidos/list_mesas.html', context)
+
+def detail_mesa(request, mesa_id):
+    mesa = get_object_or_404(Mesa, pk=mesa_id)
+    context = {'mesa': mesa}
+    return render(request, 'pedidos/detail_mesa.html', context)
+
+def create_mesa(request):
+    if request.method == 'POST':
+        mesa_form = MesaForm(request.POST)
+        if mesa_form.is_valid():
+            mesa = Mesa(**mesa_form.cleaned_data)
+            mesa.save()
+            return HttpResponseRedirect(
+                reverse('pedidos:detail_mesa', args=(mesa.pk, ))
+            )
+    else:
+        mesa_form = MesaForm()
+    context = {'mesa_form': mesa_form}
+    return render(request, 'pedidos/create_mesa.html', context)
+
+def update_mesa(request, mesa_id):
+    mesa = get_object_or_404(Mesa, pk=mesa_id)
+    if request.method == 'POST':
+        mesa_form = MesaForm(request.POST)
+        if mesa_form.is_valid():
+            mesa.capacidade = mesa_form.cleaned_data['capacidade']
+            mesa.localizacao = mesa_form.cleaned_data['localizacao']
+            mesa.disponivel = mesa_form.cleaned_data['disponivel']
+            mesa.save()
+            return HttpResponseRedirect(
+                reverse('pedidos:detail_mesa', args=(mesa.pk,))
+            )
+    else:
+        mesa_form = MesaForm(
+            initial={
+                'capacidade': mesa.capacidade,
+                'localizacao': mesa.localizacao,
+                'disponivel': mesa.disponivel,
+            }
+        )
+    context = {'mesa_form': mesa_form, 'mesa': mesa}
+    return render(request, 'pedidos/update_mesa.html', context)

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>Mesa {{ mesa.id }}</h1>
+
+<a href="{% url 'pedidos:update_mesa' mesa.id %}">Alterar</a>
+
+{% endblock content %}

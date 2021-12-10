@@ -7,9 +7,10 @@ GARFO
 
 {% block content %}
 
-<form method="POST" action="{% url 'pedidos:delete_item' item.id %}">
+<form method="POST" action="{% url 'pedidos:create_mesa' %}">
     {% csrf_token %}
-    <button type="submit">Apagar</button>
+    {{ mesa_form.as_p }}
+    <button type="submit">Criar</button>
 </form>
 
 {% endblock content %}

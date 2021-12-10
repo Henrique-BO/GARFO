@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'pedidos:update_mesa' mesa.id %}">
+    {% csrf_token %}
+    {{ mesa_form.as_p }}
+    <button type="submit">Atualizar</button>
+</form>
+
+{% endblock content %}

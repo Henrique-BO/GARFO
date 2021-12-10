@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GARFO
+{% endblock title %}
+
+{% block content %}
+
+<h1>Mesas</h1>
+
+<h3>Disponíveis</h3>
+{% if mesas_disp %}
+<ul>
+    {% for mesa in mesas_disp %}
+    <li><a href="{% url 'pedidos:detail_mesa' mesa.id %}">Mesa {{ mesa.id }} - {{ mesa.localizacao }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h3>Indisponíveis</h3>
+{% if mesas_indisp %}
+<ul>
+    {% for mesa in mesas_indisp %}
+        <li><a href="{% url 'pedidos:detail_mesa' mesa.id %}">Mesa {{ mesa.id }} - {{ mesa.localizacao }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{% url 'pedidos:create_mesa' %}">Adicionar mesa</a>
+
+{% endblock content %}
