@@ -8,9 +8,9 @@ Pedidos | GARFO
 {% block content %}
 
 <header> 
-    <a id="return-button" href="https://www.assai.com.br/"><img src=""></a> 
+    <a id="return-button" href="https://www.assai.com.br/"><img src="{% static 'arrow_back.svg' %}"></a> 
     <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
-    <a id="exit-button" href="https://www.assai.com.br/"><img src=""></a> 
+    <a id="exit-button" href="https://www.assai.com.br/"><img src="{% static 'exit.svg' %}"></a> 
 </header>
 
 <main id="container-central">
@@ -25,7 +25,7 @@ Pedidos | GARFO
             {% if pedidos_realizados %}
                 {% for pedido in pedidos_realizados %}
 
-                <div id="card">
+                <div class="card">
                     {{ pedido.item.name }}
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
@@ -45,7 +45,7 @@ Pedidos | GARFO
             {% if pedidos_preparacao %}
                 {% for pedido in pedidos_preparacao %}
 
-                <div id="card">
+                <div class="card">
                     {{ pedido.item.name }}
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
@@ -65,7 +65,7 @@ Pedidos | GARFO
             {% if pedidos_prontos %}
                 {% for pedido in pedidos_prontos %}
 
-                <div id="card">
+                <div class="card">
                     {{ pedido.item.nome }}
                     {% if user.garcom %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
