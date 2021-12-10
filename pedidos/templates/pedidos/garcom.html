@@ -2,24 +2,35 @@
 {% load static %}
 
 {% block title %}
-GARFO
+Garçom | GARFO
 {% endblock title %}
 
 {% block content %}
 
-<header id="cabecalho-principal">
-    <a href="{% url 'logout' %}">SAIR</a>
+<header>
+    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a>
 </header>
 
 <main id="container-principal">
-    <h1>Garçom</h1>
+
     <div id="img-container"><img src="{% static 'logo.jpg' %}"></div> 
-    <a href="{% url 'pedidos:pedidos' %}"> 
-        <button>PEDIDOS</button>
-    </a>
-    <a href="{% url 'pedidos:list_contas' %}"> 
-        <button>CONTAS</button>
-    </a>
+
+    <div id="button-container">
+        <a href="{% url 'pedidos:pedidos' %}"> 
+            <button>
+                <img src="{% static 'list.svg' %}">
+                PEDIDOS
+            </button>
+        </a>
+
+        <a href="{% url 'pedidos:list_contas' %}"> 
+            <button>
+                <img src="{% static 'bill.svg' %}">
+                CONTAS
+            </button>
+        </a>
+    </div>  
+
 </main>
 
 {% endblock content %}

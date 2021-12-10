@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 2vh;
+  padding: 3vh;
   background-color: var(--roxo-escuro);
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
@@ -93,8 +93,9 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding-left: 12vh;
-  padding-right: 12vh;
+  width: 40vh;
+  margin-right: 5vh;
+  margin-left: 5vh;
 }
 
 #container-inner article p{
@@ -104,6 +105,36 @@
   margin: 0;
   align-self: center;
   padding-bottom: 3vh;
+}
+
+#button-container {
+  display: flex;
+  align-content: center;
+}
+
+#button-container a{
+  margin-left: 5vh;
+  margin-right: 5vh;
+}
+
+#button-container button{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+
+  width: 35vh;
+  height: 24vh;
+  font-size: 24px;
+}
+
+#button-container button img{
+  width: 40px;
+  height: 40px;
+  object-fit: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Layout dos cards */
@@ -117,14 +148,9 @@
   box-shadow: var(--sombra-escura);
   border-radius: 42px;
 
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase; 
-  margin: 0;
-
   padding: 3vh;
-  width: 320px;
-  height: 100px;
+  width: 40vh;
+  height: 12vh;
   margin-bottom: 20px;
 }
 
