@@ -1,7 +1,9 @@
+from django.contrib.auth import login
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required, permission_required
 
 from pedidos.forms import ItemForm, MesaForm, PedidoForm
 from .models import Conta, Mesa, Pedido, Item
@@ -41,6 +43,8 @@ def cardapio(request):
     context = {'item_list': item_list, 'item_indisp': item_indisp}
     return render(request, 'pedidos/cardapio.html', context)
 
+@login_required
+@permission_required('pedidos.add_item')
 def create_item(request):
     if request.method == 'POST':
         item_form = ItemForm(request.POST)
@@ -84,6 +88,8 @@ def detail_item(request, item_id):
     context = {'item': item, 'pode_pedir': pode_pedir, 'pedido_form': pedido_form}
     return render(request, 'pedidos/detail_item.html', context)
 
+@login_required
+@permission_required('pedidos.change_item')
 def update_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     if request.method == 'POST':
@@ -111,6 +117,8 @@ def update_item(request, item_id):
     context = {'item_form': item_form, 'item': item}
     return render(request, 'pedidos/update_item.html', context)
 
+@login_required
+@permission_required('pedidos.view_pedido')
 def list_pedidos(request):
     if request.method == 'POST':
         if 'preparando' in request.POST:
@@ -153,6 +161,8 @@ def list_pedidos(request):
     }
     return render(request, 'pedidos/pedidos.html', context)
 
+@login_required
+@permission_required('pedidos.add_conta')
 def pedir_conta(request):
     cliente = request.user.cliente
     for conta in Conta.objects.filter(pago=False):
@@ -172,6 +182,7 @@ def pedir_conta(request):
     context = {'pedidos': pedidos, 'total': total}
     return render(request, 'pedidos/pedir_conta.html', context)
 
+@login_required
 def detail_conta(request, conta_id):
     conta = get_object_or_404(Conta, pk=conta_id)
     if request.method == 'POST':
@@ -179,27 +190,35 @@ def detail_conta(request, conta_id):
         conta.save()
         return HttpResponseRedirect(reverse('pedidos:list_contas'))
     total = 0
-    for pedido in conta.pedido_set:
+    for pedido in conta.pedido_set.all():
         total += pedido.item.preco
     context = {'conta': conta, 'total': total}
     return render(request, 'pedidos/detail_conta.html', context)
 
+@login_required
+@permission_required('pedidos.view_conta')
 def list_contas(request):
     contas = Conta.objects.filter(pago=False)
     context = {'contas': contas}
     return render(request, 'pedidos/list_contas.html', context)
 
+@login_required
+@permission_required('pedidos.view_mesa')
 def list_mesas(request):
     mesas_disp = Mesa.objects.filter(disponivel=True)
     mesas_indisp = Mesa.objects.filter(disponivel=False)
     context = {'mesas_disp': mesas_disp, 'mesas_indisp': mesas_indisp}
     return render(request, 'pedidos/list_mesas.html', context)
 
+@login_required
+@permission_required('pedidos.view_mesa')
 def detail_mesa(request, mesa_id):
     mesa = get_object_or_404(Mesa, pk=mesa_id)
     context = {'mesa': mesa}
     return render(request, 'pedidos/detail_mesa.html', context)
 
+@login_required
+@permission_required('pedidos.add_mesa')
 def create_mesa(request):
     if request.method == 'POST':
         mesa_form = MesaForm(request.POST)
@@ -214,6 +233,8 @@ def create_mesa(request):
     context = {'mesa_form': mesa_form}
     return render(request, 'pedidos/create_mesa.html', context)
 
+@login_required
+@permission_required('pedidos.change_mesa')
 def update_mesa(request, mesa_id):
     mesa = get_object_or_404(Mesa, pk=mesa_id)
     if request.method == 'POST':

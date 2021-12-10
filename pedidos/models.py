@@ -46,6 +46,12 @@ class Pedido(models.Model):
 
     conta = models.ForeignKey(Conta, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Conta")
 
+    class Meta:
+        permissions = [
+            ("preparar_pedido", "Can preparar pedido"),
+            ("entregar_pedido", "Can entregar pedido"),
+        ]
+
     def __str__(self):
         return f"{self.item}, para {self.cliente}"
 
