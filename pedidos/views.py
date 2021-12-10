@@ -166,7 +166,10 @@ def pedir_conta(request):
             pedido.conta = conta
             pedido.save()
         return HttpResponseRedirect(reverse('pedidos:detail_conta', args=(conta.id,)))
-    context = {'pedidos': pedidos}
+    total = 0
+    for pedido in pedidos:
+        total += pedido.item.preco
+    context = {'pedidos': pedidos, 'total': total}
     return render(request, 'pedidos/pedir_conta.html', context)
 
 def detail_conta(request, conta_id):
@@ -175,7 +178,10 @@ def detail_conta(request, conta_id):
         conta.pago = True
         conta.save()
         return HttpResponseRedirect(reverse('pedidos:list_contas'))
-    context = {'conta': conta}
+    total = 0
+    for pedido in conta.pedido_set:
+        total += pedido.item.preco
+    context = {'conta': conta, 'total': total}
     return render(request, 'pedidos/detail_conta.html', context)
 
 def list_contas(request):

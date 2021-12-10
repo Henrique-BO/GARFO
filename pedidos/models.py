@@ -32,7 +32,7 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name="Item")
-    observacoes = models.CharField(max_length=255, verbose_name="Observações")
+    observacoes = models.CharField(max_length=255, blank=True, default="", verbose_name="Observações")
 
     time_realizado = models.DateTimeField() # quando o pedido foi realizado pelo cliente
     

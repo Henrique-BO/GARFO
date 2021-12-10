@@ -13,9 +13,10 @@ GARFO
     {% if pedidos %}
         <ul>
             {% for pedido in pedidos %}
-                <li>{{ pedido.item.nome }}</li>
+                <li>{{ pedido.item.nome }}: R${{ pedido.item.preco|floatformat:2 }}</li>
             {% endfor %}
         </ul>
+        <p>Total: R${{ total|floatformat:2 }}</p>
         <form method="POST" action="{% url 'pedidos:pedir_conta' %}">
             {% csrf_token %}
             <button type="submit">Pedir Conta</button>
