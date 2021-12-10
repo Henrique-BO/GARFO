@@ -8,9 +8,9 @@ Pedidos | GARFO
 {% block content %}
 
 <header> 
-    <a id="return-button" href="https://www.assai.com.br/"><img src="{% static 'arrow_back.svg' %}"></a> 
+    <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a> 
     <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
-    <a id="exit-button" href="https://www.assai.com.br/"><img src="{% static 'exit.svg' %}"></a> 
+    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a> 
 </header>
 
 <main id="container-central">
@@ -27,7 +27,7 @@ Pedidos | GARFO
 
                 <div class="card">
 
-                    <div id="item-name">{{ pedido.item.nome }}</div>
+                    <div id="item-name">{{ pedido.item.nome }}, para {{ pedido.cliente.mesa }}</div>
                     {% if user.chefcozinha %}
                         <form id="item-form" method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}
@@ -47,7 +47,7 @@ Pedidos | GARFO
                 {% for pedido in pedidos_preparacao %}
 
                 <div id="card">
-                    <div id="item-name">{{ pedido.item.nome }}</div>
+                    <div id="item-name">{{ pedido.item.nome }}, para {{ pedido.cliente.mesa }}</div>
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}
@@ -67,7 +67,7 @@ Pedidos | GARFO
                 {% for pedido in pedidos_prontos %}
 
                 <div class="card">
-                    <div id="item-name">{{ pedido.item.nome }}</div>
+                    <div id="item-name">{{ pedido.item.nome }}, para {{ pedido.cliente.mesa }}</div>
                     {% if user.garcom %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
                             {% csrf_token %}

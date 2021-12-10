@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Mesa
+from .models import Item, Mesa, Pedido
 
 
 class ItemForm(forms.ModelForm):
@@ -32,4 +32,14 @@ class MesaForm(forms.ModelForm):
             'capacidade': 'Capacidade',
             'localizacao': 'Localização',
             'disponivel': 'Disponível',
+        }
+
+class PedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = [
+            'observacoes',
+        ]
+        labels = {
+            'observacoes': 'Observações',
         }

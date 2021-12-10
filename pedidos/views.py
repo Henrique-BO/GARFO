@@ -1,12 +1,11 @@
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
-from accounts.models import ChefCozinha
-from pedidos.forms import ItemForm, MesaForm
-
+from pedidos.forms import ItemForm, MesaForm, PedidoForm
 from .models import Conta, Mesa, Pedido, Item
-from accounts.models import Cliente
+
 
 def index(request):
     if request.user.is_authenticated:
@@ -38,7 +37,8 @@ def index(request):
 
 def cardapio(request):
     item_list = Item.objects.filter(disponivel=True)
-    context = {'item_list': item_list}
+    item_indisp = Item.objects.filter(disponivel=False)
+    context = {'item_list': item_list, 'item_indisp': item_indisp}
     return render(request, 'pedidos/cardapio.html', context)
 
 def create_item(request):
@@ -70,14 +70,18 @@ def detail_item(request, item_id):
         pode_pedir = False
     # Cliente faz pedido
     if pode_pedir and request.method == 'POST':
-        pedido = Pedido(
-            cliente=cliente,
-            item=item,
-            pronto=False
-        )
-        pedido.save()
-        return HttpResponseRedirect(reverse('pedidos:cardapio'))
-    context = {'item': item, 'pode_pedir': pode_pedir}
+        pedido_form = PedidoForm(request.POST)
+        if pedido_form.is_valid():
+            pedido = Pedido(
+                cliente=cliente,
+                item=item,
+                observacoes=pedido_form.cleaned_data['observacoes'],
+                time_realizado=timezone.localtime(timezone.now()),
+            )
+            pedido.save()
+            return HttpResponseRedirect(reverse('pedidos:cardapio'))
+    pedido_form = PedidoForm()
+    context = {'item': item, 'pode_pedir': pode_pedir, 'pedido_form': pedido_form}
     return render(request, 'pedidos/detail_item.html', context)
 
 def update_item(request, item_id):
@@ -115,6 +119,7 @@ def list_pedidos(request):
             try:
                 chefcozinha = request.user.chefcozinha
                 pedido.chefcozinha = chefcozinha
+                pedido.time_preparando = timezone.localtime(timezone.now())
                 pedido.save()
             except ObjectDoesNotExist:
                 pass
@@ -122,7 +127,7 @@ def list_pedidos(request):
             pedido_id = request.POST['pedido_id']
             pedido = Pedido.objects.get(pk=pedido_id)
             try:
-                pedido.pronto = True
+                pedido.time_pronto = timezone.localtime(timezone.now())
                 pedido.save()
             except ObjectDoesNotExist:
                 pass
@@ -132,14 +137,15 @@ def list_pedidos(request):
             try:
                 garcom = request.user.garcom
                 pedido.garcom = garcom
+                pedido.time_entregue = timezone.localtime(timezone.now())
                 pedido.save()
             except ObjectDoesNotExist:
                 pass
         return HttpResponseRedirect(reverse('pedidos:pedidos'))
     
-    pedidos_realizados = Pedido.objects.filter(chefcozinha=None)
-    pedidos_preparacao = Pedido.objects.filter(pronto=False).exclude(chefcozinha=None)
-    pedidos_prontos = Pedido.objects.filter(pronto=True).exclude(chefcozinha=None).filter(garcom=None)
+    pedidos_realizados = Pedido.objects.filter(time_preparando=None)
+    pedidos_preparacao = Pedido.objects.filter(time_pronto=None).exclude(time_preparando=None)
+    pedidos_prontos = Pedido.objects.filter(time_entregue=None).exclude(time_preparando=None).exclude(time_pronto=None)
     context = {
         'pedidos_realizados': pedidos_realizados,
         'pedidos_preparacao': pedidos_preparacao,

@@ -13,7 +13,7 @@ class Mesa(models.Model):
 
 class Item(models.Model):
     """Item do cardápio"""
-    nome = models.CharField(max_length=20, verbose_name="Nome")
+    nome = models.CharField(max_length=255, verbose_name="Nome")
     preco = models.FloatField(verbose_name="Preço")
     descricao = models.CharField(max_length=255, verbose_name="Descrição")
     foto_url = models.URLField(max_length=255, verbose_name="URL da foto")
@@ -32,10 +32,17 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name="Item")
+    observacoes = models.CharField(max_length=255, verbose_name="Observações")
+
+    time_realizado = models.DateTimeField() # quando o pedido foi realizado pelo cliente
     
     chefcozinha = models.ForeignKey(ChefCozinha, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Chef de Cozinha")
+    time_preparando = models.DateTimeField(blank=True, null=True) # quando o pedido começou a ser preparado pelo chef de cozinha
+    
+    time_pronto = models.DateTimeField(blank=True, null=True) # quando o pedido ficou pronto
+
     garcom = models.ForeignKey(Garcom, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Garçom")
-    pronto = models.BooleanField(verbose_name="Pronto")
+    time_entregue = models.DateTimeField(blank=True, null=True) # quando o pedido foi entregue ao cliente
 
     conta = models.ForeignKey(Conta, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Conta")
 

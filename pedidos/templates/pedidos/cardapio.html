@@ -26,4 +26,17 @@ GARFO
 </ul>
 {% endif %}
 
+{% if user.gerente %}
+    {% if item_indisp %}
+        <h3>Itens indisponíveis</h3>
+        <ul>
+            {% for item in item_indisp %}
+                <li><a href="{% url 'pedidos:detail_item' item.id %}">{{ item.nome }}</a></li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+    <a href="{% url 'pedidos:create_item' %}">Criar item</a>
+{% endif %}
+
 {% endblock content %}
