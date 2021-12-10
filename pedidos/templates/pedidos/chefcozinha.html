@@ -2,21 +2,28 @@
 {% load static %}
 
 {% block title %}
-GARFO
+Chef de Cozinha | GARFO
 {% endblock title %}
 
 {% block content %}
 
 <header id="cabecalho-principal">
-    <a href="{% url 'logout' %}">SAIR</a>
+    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a>
 </header>
 
+
 <main id="container-principal">
-    <h1>Chef de Cozinha</h1>
+
     <div id="img-container"><img src="{% static 'logo.jpg' %}"></div> 
+
+    <div id="button-container">
     <a href="{% url 'pedidos:pedidos' %}"> 
-        <button>PEDIDOS</button>
-    </a>
+            <button>
+                <img src="{% static 'list.svg' %}">
+                PEDIDOS
+            </button>
+        </a>
+    </div>
 </main>
 
 {% endblock content %}
