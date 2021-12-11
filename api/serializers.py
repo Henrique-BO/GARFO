@@ -57,6 +57,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = [
             'id',
+            'nome',
             'preco',
             'descricao',
             'foto_url',
