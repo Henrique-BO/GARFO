@@ -296,14 +296,6 @@
   font-size: 32px;
 }
 
-#header-signup {
-  justify-content: center!important;
-}
-
-#header-signup #return-button {
-  justify-items: flex-start;
-}
-
 .form-control::placeholder, #button {
   text-transform: uppercase;
 }
@@ -324,6 +316,16 @@
 
 #body_roxo a:hover{
   color: var(--branco);
+}
+
+#no-logout-header {
+  justify-content: space-between!important;
+}
+
+#no-img {
+  width: 24px;
+  height: 24px;
+  margin-left: 4vh;
 }
 
 /* Layout de blocos gerais sem id */

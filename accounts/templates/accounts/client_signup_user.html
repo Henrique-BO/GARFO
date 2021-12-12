@@ -6,10 +6,10 @@ Cadastrar
 {% endblock title %}
 
 {% block content %}
-<header> 
+<header id="no-logout-header"> 
     <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a> 
     <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
-    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a> 
+    <div id="no-img"></div>
 </header>
 
 <main id="container-central">
