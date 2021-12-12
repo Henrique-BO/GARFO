@@ -312,6 +312,20 @@
   display: none;
 }
 
+#body_roxo .errortext {
+  color: var(--roxo-claro);
+}
+
+#body_roxo a, #body_roxo a:visited{
+  font-weight: bold;
+  color: var(--roxo-claro);
+  text-shadow: var(--sombra-escura);
+}
+
+#body_roxo a:hover{
+  color: var(--branco);
+}
+
 /* Layout de blocos gerais sem id */
 
 img {
@@ -327,17 +341,30 @@ form {
   flex-direction: column;
   align-items: center;
 }
+form button {
+  margin: 16px;
+}
 
 form input, form button {
-  margin: 16px;
   font-size: 18px;
 }
 
-form input {
+form input, form select {
   border-color: transparent;
   border-radius: 42px;
   padding: 16px 24px;
-  box-shadow: var(--sombra-escura)
+  margin: 8px;
+  box-shadow: var(--sombra-escura);
+}
+
+form select {
+  color: var(--cinza-mais-escuro);
+  text-transform: uppercase;
+}
+
+form p {
+  padding: 0;
+  margin: 0;
 }
 
 form input::placeholder {
@@ -359,14 +386,8 @@ a, a:visited {
   color: inherit;
 }
 
-#body_roxo a, #body_roxo a:visited{
-  font-weight: bold;
-  color: var(--roxo-claro);
-  text-shadow: var(--sombra-escura);
-}
-
-#body_roxo a:hover{
-  color: var(--branco);
+p a {
+  color: var(--roxo-claro)!important;
 }
 
 button {

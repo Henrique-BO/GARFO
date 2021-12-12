@@ -1,30 +1,38 @@
 {% extends 'base2.html' %}
+{% load static %}
 
 {% block title %}
 Entrar
 {% endblock title %}
 
 {% block content %}
-<h1>Entrar</h1>
+<header> 
+    <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a> 
+    <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
+    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a> 
+</header>
+<main id="container-central">
+    <h1>ENTRAR</h1>
 
-{% if form.errors %}
-<p>Sua senha e nome de usuário não correspondem. Tente novamente.</p>
-{% endif %}
+    <form method="post" action="{% url 'accounts:client_login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        {% if form.errors %}
+        <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+        {% endif %}
 
-{% if next %}
-{% if user.is_authenticated %}
-<p>Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
-{% else %}
-<p>Faça o login para ver esta página.</p>
-{% endif %}
-{% endif %}
+        {% if next %}
+        {% if user.is_authenticated %}
+        <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
+        {% else %}
+        <p class="errortext">Faça o login para ver esta página.</p>
+        {% endif %}
+        {% endif %}
+        <button id="button" type="submit" value="login">Entrar</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
-</form>
-
-<p> Não tem uma conta?<a href="{% url 'accounts:client_signup_user' %}">Cadastre-se!</a></p>
-
+    <p> Não tem uma conta? <a href="{% url 'accounts:client_signup_user' %}">Cadastre-se!</a></p>
+</main>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Cadastrar
+Entrar
 {% endblock title %}
 
 {% block content %}
@@ -11,14 +11,13 @@ Cadastrar
     <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
     <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a> 
 </header>
-
 <main id="container-central">
-    <h1>CADASTRAR</h1>
+    <h1>SELECIONE SUA MESA</h1>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Cadastre-se</button>
+        <button type="submit">Escolher</button>
     </form>
 </main>
 {% endblock %}
