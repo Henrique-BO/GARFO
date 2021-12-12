@@ -17,26 +17,30 @@ Lista de contas | GARFO
 
     <span>CONTAS</span>
 
-    {% if contas %}
-            {% for conta in contas %}
+    <div id="container-inner-2">
 
-                <div class="card">
-                    <div class="left-part">
-                        <!-- PRECISA MUDAR ESSAS TAGS AQUI: -->
-                        <div id="table-number">{{ conta.cliente.mesa }} | Conta {{ conta.id }}</div>
-                        <br>
-                        <div id="item-name">{{ conta.cliente.user }}</div>
+        {% if contas %}
+                {% for conta in contas %}
+
+                    <div class="card" id="single-card">
+                        <div class="left-part">
+                            <div id="table-number"> {{ conta.pedido_set.all.0.cliente.mesa }} | Conta {{ conta.id }}</div>
+                            <br>
+                            <div id="item-name">{{ conta.pedido_set.all.0.cliente.user }}</div>
+                        </div>
+
+                        <form id="item-form" method="POST" action="{% url 'pedidos:detail_conta' conta.id %}">
+                            {% csrf_token %}
+                            <button type="submit"><img src="{% static 'check.svg' %}"></button>
+                        </form>
+                                
                     </div>
+                    
+                {% endfor %}
+        {% endif %}
 
-                    <form id="item-form" method="POST" action="{% url 'pedidos:detail_conta' conta.id %}">
-                        {% csrf_token %}
-                        <button type="submit"><img src="{% static 'check.svg' %}"></button>
-                    </form>
-                            
-                </div>
-                
-            {% endfor %}
-    {% endif %}
+    </div>
+
 </main>
 
 {% endblock content %}
