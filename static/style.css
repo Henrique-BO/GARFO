@@ -139,6 +139,17 @@
   box-shadow: none;
 }
 
+#cards-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#cards-container .card {
+  margin: 0 32px 32px 32px;
+}
+
 /* Layout dos cards */
 
 .card {
@@ -157,10 +168,18 @@
   margin-bottom: 20px;
 }
 
-.left-part {
+.left-part, .right-part {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.right-part {
+  padding-left: 32px;
+}
+
+.left-part .space, .right-part .space {
+  height: 16.8px;
 }
 
 #table-number {
@@ -174,6 +193,16 @@
   overflow-y:auto;
 }
 
+#table-info {
+  font-size: 14px;
+  color: var(--cinza-mais-escuro);
+  text-transform: uppercase; 
+  margin: 0;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+}
+
 #item-name {
   font-size: 14px;
   font-weight: bold;
@@ -181,7 +210,7 @@
   margin: 0;
   display: flex;
   align-items: center;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 .card form {
@@ -211,7 +240,7 @@
   box-shadow: none;
 }
 
-/* Layout de blocos gerais com id */
+/* Layout de blocos gerais com id ou classe */
 
 #img-container {
   height: 20vh;
@@ -254,6 +283,22 @@
   font-size: 32px;
 }
 
+#header-signup {
+  justify-content: center!important;
+}
+
+#header-signup #return-button {
+  justify-items: flex-start;
+}
+
+.form-control::placeholder, #button {
+  text-transform: uppercase;
+}
+
+.helptext {
+  display: none;
+}
+
 /* Layout de blocos gerais sem id */
 
 img {
@@ -288,18 +333,26 @@ form input::placeholder {
   font-size: 16px;
 }
 
+form button {
+  text-transform: uppercase;
+}
+
 form p label {
   display: none;
 }
 
-a, a:visited{
-  font-weight: bold;
+a, a:visited {
   text-decoration: none;
+  color: inherit;
+}
+
+#body_roxo a, #body_roxo a:visited{
+  font-weight: bold;
   color: var(--roxo-claro);
   text-shadow: var(--sombra-escura);
 }
 
-a:hover{
+#body_roxo a:hover{
   color: var(--branco);
 }
 
@@ -320,4 +373,8 @@ button {
 button:hover{
   background-color: #c66f3a;
   color: #d7d7d7;
+}
+
+form ul li, form ul {
+  display: none;
 }

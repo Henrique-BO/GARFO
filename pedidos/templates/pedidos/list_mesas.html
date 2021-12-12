@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load static %}
 
 {% block title %}
@@ -7,26 +7,60 @@ GARFO
 
 {% block content %}
 
-<h1>Mesas</h1>
+<header> 
+    <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a> 
+    <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
+    <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a> 
+</header>
 
-<h3>Disponíveis</h3>
-{% if mesas_disp %}
-<ul>
-    {% for mesa in mesas_disp %}
-    <li><a href="{% url 'pedidos:detail_mesa' mesa.id %}">Mesa {{ mesa.id }} - {{ mesa.localizacao }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+<main id="container-central">
 
-<h3>Indisponíveis</h3>
-{% if mesas_indisp %}
-<ul>
-    {% for mesa in mesas_indisp %}
-        <li><a href="{% url 'pedidos:detail_mesa' mesa.id %}">Mesa {{ mesa.id }} - {{ mesa.localizacao }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+    <h1>MESAS</h1>
 
-<a href="{% url 'pedidos:create_mesa' %}">Adicionar mesa</a>
+    <h3>DISPONÍVEIS</h3>
+
+    <div id="cards-container">
+    {% if mesas_disp %}
+        {% for mesa in mesas_disp %}
+        <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="card-mesa">
+            <div class="left-part">
+                <div id="table-number">Mesa {{ mesa.id }}</div>
+                <div class="space"></div>
+                <div class="space"></div>
+            </div>
+            <div class="right-part">
+                <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
+                <div class="space"></div>
+                <div id="table-info">{{ mesa.localizacao }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    <h3>INDISPONÍVEIS</h3>
+
+    <div id="#cards-container">
+    {% if mesas_indisp %}
+        {% for mesa in mesas_indisp %}
+        <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="card-mesa">
+            <div class="left-part">
+                <div id="table-number">Mesa {{ mesa.id }}</div>
+                <div class="space"></div>
+                <div class="space"></div>
+            </div>
+            <div class="right-part">
+                <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
+                <div class="space"></div>
+                <div id="table-info">{{ mesa.localizacao }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    <a href="{% url 'pedidos:create_mesa' %}"><button>Adicionar mesa</button></a>
+
+</main>
 
 {% endblock content %}
