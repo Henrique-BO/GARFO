@@ -53,7 +53,7 @@ PERMISSIONS = {
     'Gerente': {
         'Mesa': ['add', 'change', 'view'],
         'Item': ['add', 'change', 'view'],
-        'Mesa': ['add', 'change', 'view'],
+        'Conta': ['view'],
         'Pedido': ['view'],
     },
     'Garcom': {

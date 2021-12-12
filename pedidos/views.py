@@ -121,7 +121,7 @@ def update_item(request, item_id):
 @permission_required('pedidos.view_pedido')
 def list_pedidos(request):
     if request.method == 'POST':
-        if 'preparando' in request.POST:
+        if 'preparando' in request.POST and request.user.has_perm('pedidos.preparar_pedido'):
             pedido_id = request.POST['pedido_id']
             pedido = Pedido.objects.get(pk=pedido_id)
             try:
@@ -131,7 +131,7 @@ def list_pedidos(request):
                 pedido.save()
             except ObjectDoesNotExist:
                 pass
-        if 'pronto' in request.POST:
+        if 'pronto' in request.POST and request.user.has_perm('pedidos.preparar_pedido'):
             pedido_id = request.POST['pedido_id']
             pedido = Pedido.objects.get(pk=pedido_id)
             try:
@@ -139,7 +139,7 @@ def list_pedidos(request):
                 pedido.save()
             except ObjectDoesNotExist:
                 pass
-        if 'entregue' in request.POST:
+        if 'entregue' in request.POST and request.user.has_perm('pedidos.entregar_pedido'):
             pedido_id = request.POST['pedido_id']
             pedido = Pedido.objects.get(pk=pedido_id)
             try:
