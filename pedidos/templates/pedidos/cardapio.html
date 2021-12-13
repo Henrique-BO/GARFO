@@ -11,6 +11,9 @@ GARFO
     {% if user.is_authenticated %}
         {% if user.cliente %}
             <a href="{% url 'pedidos:pedir_conta' %}">CONTA</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#conta">
+                Conta
+            </button>
         {% endif %}
         <a href="{% url 'logout' %}">SAIR</a>
     {% endif %}
@@ -21,7 +24,66 @@ GARFO
 {% if item_list %}
 <ul>
     {% for item in item_list %}
-        <li><a href="{% url 'pedidos:detail_item' item.id %}">{{ item.nome }}</a></li>
+        <li>{{ item.nome }}</li>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detail_{{ item.id }}">
+            Detalhes ou coisa assim
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="detail_{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ item.nome }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ item.foto_url }}" alt="foto">
+
+                        {% if user.cliente %}
+                            <p>{{ item.descricao }}</p>
+                            <p>Preço: R${{ item.preco }}</p>
+                            {% if pode_pedir %}
+                                <form method="POST" action="{% url 'pedidos:fazer_pedido' item.id %}">
+                                    {% csrf_token %}
+                                    <label for="observacoes">Observações: </label>
+                                    <input type="text" name="observacoes" id="observacoes">
+                                    <button type="submit">Pedir</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                                
+                        {% if user.gerente %}
+                            <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
+                                {% csrf_token %}
+                                <label for="id_nome">Nome: </label>
+                                <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+
+                                <label for="id_preco">Preço: </label>
+                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                
+                                <label for="id_descricao">Descrição: </label>
+                                <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
+                                
+                                <label for="id_foto_url">URL da foto: </label>
+                                <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
+                                
+                                <label for="id_disponivel">Disponível: </label>
+                                <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
+
+                                <button type="submit">Atualizar</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 </ul>
 {% endif %}
@@ -31,12 +93,98 @@ GARFO
         <h3>Itens indisponíveis</h3>
         <ul>
             {% for item in item_indisp %}
-                <li><a href="{% url 'pedidos:detail_item' item.id %}">{{ item.nome }}</a></li>
+                <li>{{ item.nome }}</li>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detail_{{ item.id }}">
+                    Detalhes ou coisa assim
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="detail_{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ item.nome }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{ item.foto_url }}" alt="foto">
+
+                                <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
+                                    {% csrf_token %}
+                                    <label for="id_nome">Nome: </label>
+                                    <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+
+                                    <label for="id_preco">Preço: </label>
+                                    <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                    
+                                    <label for="id_descricao">Descrição: </label>
+                                    <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
+                                    
+                                    <label for="id_foto_url">URL da foto: </label>
+                                    <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
+                                    
+                                    <label for="id_disponivel">Disponível: </label>
+                                    <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
+
+                                    <button type="submit">Atualizar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
-    </ul>
+        </ul>
     {% endif %}
 
-    <a href="{% url 'pedidos:create_item' %}">Criar item</a>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_item">
+        Criar item
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="create_item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Criar item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="POST" action="{% url 'pedidos:create_item' %}">
+                        {% csrf_token %}
+                        <label for="id_nome">Nome: </label>
+                        <input type="text" name="nome" required id="id_nome">
+
+                        <label for="id_preco">Preço: </label>
+                        <input type="number" step="any" name="preco" required id="id_preco">
+                        
+                        <label for="id_descricao">Descrição: </label>
+                        <input type="text" name="descricao" required id="id_descricao">
+                        
+                        <label for="id_foto_url">URL da foto: </label>
+                        <input type="url" name="foto_url" required id="id_foto_url" maxlength="255">
+                        
+                        <label for="id_disponivel">Disponível: </label>
+                        <input type="checkbox" name="disponivel" id="id_disponivel">
+
+                        <button type="submit">Atualizar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
 {% endif %}
 
 {% endblock content %}

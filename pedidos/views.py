@@ -40,27 +40,7 @@ def index(request):
 def cardapio(request):
     item_list = Item.objects.filter(disponivel=True)
     item_indisp = Item.objects.filter(disponivel=False)
-    context = {'item_list': item_list, 'item_indisp': item_indisp}
-    return render(request, 'pedidos/cardapio.html', context)
 
-@login_required
-@permission_required('pedidos.add_item')
-def create_item(request):
-    if request.method == 'POST':
-        item_form = ItemForm(request.POST)
-        if item_form.is_valid():
-            item = Item(**item_form.cleaned_data)
-            item.save()
-            return HttpResponseRedirect(
-                reverse('pedidos:detail_item', args=(item.pk, ))
-            )
-    else:
-        item_form = ItemForm()
-    context = {'item_form': item_form}
-    return render(request, 'pedidos/create_item.html', context)
-
-def detail_item(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
     if request.user.is_authenticated:
         pode_pedir = True
         try:
@@ -72,21 +52,36 @@ def detail_item(request, item_id):
             pode_pedir = False
     else:
         pode_pedir = False
-    # Cliente faz pedido
-    if pode_pedir and request.method == 'POST':
+
+    context = {'item_list': item_list, 'item_indisp': item_indisp, 'pode_pedir': pode_pedir}
+    return render(request, 'pedidos/cardapio.html', context)
+
+@login_required
+@permission_required('pedidos.add_item')
+def create_item(request):
+    if request.method == 'POST':
+        item_form = ItemForm(request.POST)
+        if item_form.is_valid():
+            item = Item(**item_form.cleaned_data)
+            item.save()
+    return HttpResponseRedirect(reverse('pedidos:cardapio', args=(item.pk,)))
+
+
+@login_required
+@permission_required('pedidos.add_pedido')
+def fazer_pedido(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    if request.method == 'POST':
         pedido_form = PedidoForm(request.POST)
         if pedido_form.is_valid():
             pedido = Pedido(
-                cliente=cliente,
+                cliente=request.user.cliente,
                 item=item,
                 observacoes=pedido_form.cleaned_data['observacoes'],
                 time_realizado=timezone.localtime(timezone.now()),
             )
             pedido.save()
-            return HttpResponseRedirect(reverse('pedidos:cardapio'))
-    pedido_form = PedidoForm()
-    context = {'item': item, 'pode_pedir': pode_pedir, 'pedido_form': pedido_form}
-    return render(request, 'pedidos/detail_item.html', context)
+    return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
 @permission_required('pedidos.change_item')
@@ -101,21 +96,7 @@ def update_item(request, item_id):
             item.foto_url = item_form.cleaned_data['foto_url']
             item.disponivel = item_form.cleaned_data['disponivel']
             item.save()
-            return HttpResponseRedirect(
-                reverse('pedidos:detail_item', args=(item.pk, ))
-            )
-    else:
-        item_form = ItemForm(
-            initial={
-                'nome': item.nome,
-                'preco': item.preco,
-                'descricao': item.descricao,
-                'foto_url': item.foto_url,
-                'disponivel': item.disponivel,
-            }
-        )
-    context = {'item_form': item_form, 'item': item}
-    return render(request, 'pedidos/update_item.html', context)
+    return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
 @permission_required('pedidos.view_pedido')
