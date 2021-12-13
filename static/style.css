@@ -27,7 +27,7 @@
   font-size: 18px;
   background-color: var(--roxo-escuro);
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   margin: 0;
 }
 
@@ -132,11 +132,12 @@
   margin-top: 4vh;
   display: flex;
   align-content: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 #button-container a{
-  margin-left: 5vh;
-  margin-right: 5vh;
+  margin-right: 40px;
 }
 
 #button-container button{
@@ -146,8 +147,8 @@
   align-items: center;
   align-content: center;
 
-  width: 35vh;
-  height: 24vh;
+  width: 240px;
+  height: 180px;
   font-size: 24px;
 }
 
@@ -164,6 +165,7 @@
 .card {
   display: flex;
   align-content: center;
+  flex-direction: row;
 
   background-color: var(--branco);
   color: var(--cinza-mais-escuro);
