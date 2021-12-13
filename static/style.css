@@ -82,8 +82,15 @@
   padding-left: 6vh;
 }
 
-#container-central p {
+#container-central h3 {
   font-size: 24px;
+  font-weight: bold;
+  padding-left: 6vh;
+  align-self: flex-start;
+}
+
+#container-central p {
+  font-size: 18px;
   font-weight: bold;
   padding: 0;
 }
@@ -271,10 +278,20 @@
 }
 
 /* Layout dos modais */
-
-.modal{
-  z-index: 3;
+.background {
+  z-index: 2;
   display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal {
+  z-index: 3;
   margin: 4vh;
   position: fixed;
   left: 50%;
@@ -287,7 +304,6 @@
   background-color: var(--branco);
   border-radius: 42px;
   color: var(--cinza-mais-escuro);
-  display: none;
 }
 
 .modal-content{
@@ -519,6 +535,7 @@ form input, form select {
 form select {
   color: var(--cinza-mais-escuro);
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 form p {

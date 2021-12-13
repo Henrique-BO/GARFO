@@ -20,23 +20,25 @@
   </header>
   
   <main id="container-central">
-        <span>CARDÁPIO</span>
-        <div id="container-inner-2">
 
-            {% if item_list %}
-                {% for item in item_list %}
-                <div onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="w3-button card img-card" id="single-card">
-                    <div class="left-part">
-                        <img id="item-img" src="{{ item.foto_url }}">
-                    </div>
+    <span>CARDÁPIO</span>
 
-                    <div class="right-part">
-                        <div id="item-name">{{ item.nome }}</div>
-                    </div>
+    <section id="container-inner-2">
+        {% if item_list %}
+            {% for item in item_list %}
+            <div onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="card img-card" id="single-card">
+                <div class="left-part">
+                    <img id="item-img" src="{{ item.foto_url }}">
                 </div>
 
-                <!-- Modal -->
-                <div id="modal-item-{{ item.id }}" class="modal">
+                <div class="right-part">
+                    <div id="item-name">{{ item.nome }}</div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="modal-item-{{ item.id }}" class="background">
+                <div class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
                             <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
@@ -92,38 +94,99 @@
                             {% endif %}
                         </div>
                     </div>
-                  </div>
-
-                {% endfor %}
-
-                {% if user.gerente %}
-                <div class="card" id="add-card">
-                    <img src="{% static 'plus.svg' %}">
                 </div>
-                {% endif %}
-
-            {% endif %}
+            </div>
+            {% endfor %}
 
             {% if user.gerente %}
-            {% if item_indisp %}
-                    <p>ITENS INDISPONÍVEIS</p>
-                        {% for item in item_indisp %}
-                        <div class="card">
-                            <div class="left-part">
-                                <div class="space"></div>
-                                <div class="space"></div>
-                                <div class="space"></div>
+            <div class="card" id="add-card">
+                <img src="{% static 'plus.svg' %}">
+            </div>
+            {% endif %}
+        {% endif %}
+    </section>
+
+    {% if user.gerente %}
+    {% if item_indisp %}
+        <h3>ITENS INDISPONÍVEIS</h3>
+        <section id="container-inner-2">
+            {% for item in item_indisp %}
+                <div class="card">
+                    <div class="left-part">
+                        <div class="space"></div>
+                        <div class="space"></div>
+                        <div class="space"></div>
+                    </div>
+
+                    <div class="right-part">
+                        <div id="item-name">{{ item.nome }}</div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div id="modal-item-{{ item.id }}" class="background">
+                    <div class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                             </div>
-        
-                            <div class="right-part">
-                                <div id="item-name">{{ item.nome }}</div>
+                            <div class="modal-body">
+                                <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                                <p class="modal-title">{{ item.nome }}</p>
+                                    {% if user.cliente %}
+                                    <p class="modal-text">{{ item.descricao }}</p>
+                                    <p class="modal-text">Preço: R${{ item.preco|stringformat:".2f" }}</p>
+                                    {% if pode_pedir %}
+                                        <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                            {% csrf_token %}
+                                            <div>
+                                                <label for="observacoes">Observações: </label>
+                                                <input type="text" name="observacoes" id="observacoes">
+                                            </div>
+                                            <button type="submit">PEDIR</button>
+                                        </form>
+                                        {% endif %}
+                                {% endif %}
+                                        
+                                {% if user.gerente %}
+                                    <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                        {% csrf_token %}
+                                        <div>
+                                            <label for="id_nome">Nome: </label>
+                                            <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+                                        </div>
+
+                                        <div>
+                                            <label for="id_preco">Preço: </label>
+                                            <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                        </div>
+
+                                        <div>
+                                            <label for="id_descricao">Descrição: </label>
+                                            <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
+                                        </div>
+
+                                        <div>
+                                            <label for="id_foto_url">URL da foto: </label>
+                                            <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
+                                        </div>
+
+                                        <div>
+                                            <label for="id_disponivel">Disponível: </label>
+                                            <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
+                                        </div>
+
+                                        <button type="submit">ATUALIZAR</button>
+                                    </form>
+                                {% endif %}
                             </div>
                         </div>
-                        {% endfor %}
-            {% endif %}
-            {% endif %}
-        
-        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    {% endif %}
+    {% endif %}
   </main>
   
   {% endblock content %}

@@ -19,7 +19,7 @@ Lista de Mesas | GARFO
 
     <span>MESAS</span>
 
-    <p>Em funcionameto</p>
+    <h3>EM FUNCIONAMENTO</h3>
 
     <section id="container-inner-2">
 
@@ -39,39 +39,41 @@ Lista de Mesas | GARFO
                 </div>
 
                 <!-- Modal -->
-                <div id="modal-mesa-{{ mesa.id }}" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
-                        </div>
-                        <div class="modal-body">
-                            <p class="modal-title modal-title-mesa">Mesa {{ mesa.id }}</p>
-                                    
-                            {% if user.gerente %}
-                                <form method="POST" action="{% url 'pedidos:list_mesas' %}">
-                                    {% csrf_token %}
-                                    <div>
-                                        <label for="id_capacidade">Capacidade: </label>
-                                        <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
-                                    </div>
+                <div id="modal-mesa-{{ mesa.id }}" class="background">
+                    <div class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
+                            </div>
+                            <div class="modal-body">
+                                <p class="modal-title modal-title-mesa">Mesa {{ mesa.id }}</p>
+                                        
+                                {% if user.gerente %}
+                                    <form method="POST" action="{% url 'pedidos:list_mesas' %}">
+                                        {% csrf_token %}
+                                        <div>
+                                            <label for="id_capacidade">Capacidade: </label>
+                                            <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
+                                        </div>
 
-                                    <div>
-                                        <label for="id_localizacao">Localização: </label>
-                                        <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
-                                    </div>
+                                        <div>
+                                            <label for="id_localizacao">Localização: </label>
+                                            <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
+                                        </div>
 
-                                    <div>
-                                        <label for="id_disponivel">Disponível: </label>
-                                        <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
-                                    </div>
+                                        <div>
+                                            <label for="id_disponivel">Disponível: </label>
+                                            <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
+                                        </div>
 
-                                    <button type="submit">ATUALIZAR</button>
-                                </form>
-                            {% endif %}
-                        </div>
+                                        <button type="submit">ATUALIZAR</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            </div>
                         </div>
                     </div>
-                  </div>
+                </div>
             {% endfor %}
         {% endif %}
 
@@ -83,7 +85,7 @@ Lista de Mesas | GARFO
     
     </section> 
 
-    <p>Interditadas</p>
+    <h3>INTERDITADAS</h3>
 
     <section id="container-inner-2">
 
@@ -102,39 +104,41 @@ Lista de Mesas | GARFO
                 </div>
 
                 <!-- Modal -->
-                <div id="modal-mesa-{{ mesa.id }}" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
-                        </div>
-                        <div class="modal-body">
-                            <p class="modal-title modal-title-mesa"> Mesa {{ mesa.id }}</p>
-                                    
-                            {% if user.gerente %}
-                                <form method="POST" action="{% url 'pedidos:list_mesas' %}">
-                                    {% csrf_token %}
-                                    <div>
-                                        <label for="id_capacidade">Capacidade: </label>
-                                        <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
-                                    </div>
+                <div id="modal-mesa-{{ mesa.id }}" class="background">
+                    <div class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
+                            </div>
+                            <div class="modal-body">
+                                <p class="modal-title modal-title-mesa"> Mesa {{ mesa.id }}</p>
+                                        
+                                {% if user.gerente %}
+                                    <form method="POST" action="{% url 'pedidos:list_mesas' %}">
+                                        {% csrf_token %}
+                                        <div>
+                                            <label for="id_capacidade">Capacidade: </label>
+                                            <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
+                                        </div>
 
-                                    <div>
-                                        <label for="id_localizacao">Localização: </label>
-                                        <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
-                                    </div>
+                                        <div>
+                                            <label for="id_localizacao">Localização: </label>
+                                            <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
+                                        </div>
 
-                                    <div>
-                                        <label for="id_disponivel">Disponível: </label>
-                                        <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
-                                    </div>
+                                        <div>
+                                            <label for="id_disponivel">Disponível: </label>
+                                            <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
+                                        </div>
 
-                                    <button type="submit">ATUALIZAR</button>
-                                </form>
-                            {% endif %}
-                        </div>
+                                        <button type="submit">ATUALIZAR</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            </div>
                         </div>
                     </div>
-                  </div>
+                </div>
             {% endfor %}
         {% endif %}
 
