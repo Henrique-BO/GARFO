@@ -15,23 +15,24 @@ GARFO
     <div id="img-container-form"><img src="{% static 'logo.jpg' %}"></div> 
 
     <h1>Entrar</h1>
-    
-    {% if form.errors %}
-    <p>Sua senha e nome de usuário não correspondem. Tente novamente.</p>
-    {% endif %}
-
-    {% if next %}
-    {% if user.is_authenticated %}
-    <p>Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
-    {% else %}
-    <p>Faça o login para ver esta página.</p>
-    {% endif %}
-    {% endif %}
 
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <input type="input" class="form-control" name="username" id="inputUser" placeholder="Nome" required >
         <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Senha" required>
+
+        {% if form.errors %}
+        <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+        {% endif %}
+
+        {% if next %}
+        {% if user.is_authenticated %}
+        <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
+        {% else %}
+        <p class="errortext">Faça o login para ver esta página.</p>
+        {% endif %}
+        {% endif %}
+
         <button id="button" type="submit" value="login">Entrar</button>
         <input type="hidden" name="next" value="{{ next }}">
     </form>

@@ -82,20 +82,22 @@
   padding-left: 6vh;
 }
 
+#container-central p {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  align-self: normal;
+  padding-left: 6vh;
+  padding-top: 4vh;
+}
+
 #container-inner {
   display: flex;
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
   padding-top: 4vh;
-}
-
-#container-inner-2 {
-  display: flex;
-  align-self: normal;
-  flex-wrap: wrap;
-  padding-top: 4vh;
-  padding-left: 6vh;
 }
 
 #container-inner article {
@@ -105,6 +107,8 @@
   width: 300px;
   margin-right: 60px;
   margin-left: 60px;
+
+  font-weight: bold;
 }
 
 #container-inner article p{
@@ -114,6 +118,14 @@
   margin: 0;
   align-self: center;
   padding-bottom: 3vh;
+}
+
+#container-inner-2 {
+  display: flex;
+  align-self: normal;
+  flex-wrap: wrap;
+  padding-top: 4vh;
+  padding-left: 6vh;
 }
 
 #button-container {
@@ -147,17 +159,6 @@
   box-shadow: none;
 }
 
-#cards-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#cards-container .card {
-  margin: 0 32px 32px 32px;
-}
-
 /* Layout dos cards */
 
 .card {
@@ -187,10 +188,6 @@
   padding-left: 32px;
 }
 
-.left-part .space, .right-part .space {
-  height: 16.8px;
-}
-
 #table-number {
   color: var(--laranja-escuro);
   font-size: 14px;
@@ -214,7 +211,6 @@
 
 #item-name {
   font-size: 14px;
-  font-weight: bold;
   text-transform: uppercase; 
   margin: 0;
   display: flex;
@@ -224,6 +220,18 @@
 
 #single-card {
   margin-right: 20px;
+}
+
+#add-card {
+  margin-right: 20px;
+  background-color: var(--cinza-claro);
+  justify-content: center;
+}
+
+#add-card img {
+  height: auto;
+  width: auto;
+  justify-content: center;
 }
 
 .card form {
@@ -247,7 +255,7 @@
   border: 0;
 }
 
-.card form button img {
+.card img {
   object-fit: none;
   border-radius: 0;
   box-shadow: none;
@@ -296,20 +304,36 @@
   font-size: 32px;
 }
 
-#header-signup {
-  justify-content: center!important;
-}
-
-#header-signup #return-button {
-  justify-items: flex-start;
-}
-
 .form-control::placeholder, #button {
   text-transform: uppercase;
 }
 
 .helptext {
   display: none;
+}
+
+#body_roxo .errortext {
+  color: var(--roxo-claro);
+}
+
+#body_roxo a, #body_roxo a:visited{
+  font-weight: bold;
+  color: var(--roxo-claro);
+  text-shadow: var(--sombra-escura);
+}
+
+#body_roxo a:hover{
+  color: var(--branco);
+}
+
+#no-logout-header {
+  justify-content: space-between!important;
+}
+
+#no-img {
+  width: 24px;
+  height: 24px;
+  margin-left: 4vh;
 }
 
 /* Layout de blocos gerais sem id */
@@ -327,17 +351,30 @@ form {
   flex-direction: column;
   align-items: center;
 }
+form button {
+  margin: 16px;
+}
 
 form input, form button {
-  margin: 16px;
   font-size: 18px;
 }
 
-form input {
+form input, form select {
   border-color: transparent;
   border-radius: 42px;
   padding: 16px 24px;
-  box-shadow: var(--sombra-escura)
+  margin: 8px;
+  box-shadow: var(--sombra-escura);
+}
+
+form select {
+  color: var(--cinza-mais-escuro);
+  text-transform: uppercase;
+}
+
+form p {
+  padding: 0;
+  margin: 0;
 }
 
 form input::placeholder {
@@ -359,14 +396,8 @@ a, a:visited {
   color: inherit;
 }
 
-#body_roxo a, #body_roxo a:visited{
-  font-weight: bold;
-  color: var(--roxo-claro);
-  text-shadow: var(--sombra-escura);
-}
-
-#body_roxo a:hover{
-  color: var(--branco);
+p a {
+  color: var(--roxo-claro)!important;
 }
 
 button {
