@@ -301,6 +301,14 @@
   position: relative;
   margin: 4vh;
   outline: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  height: fit-content;
 }
 
 .modal-body {
@@ -335,10 +343,8 @@
 }
 
 .close-button {
-  position: absolute;
-  right: 0;
-  top: 0;
   font-size:40px!important;
+  padding: 0!important;
 }
 
 .modal img {

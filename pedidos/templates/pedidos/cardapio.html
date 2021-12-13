@@ -39,7 +39,7 @@
                 <div id="modal-{{ item.id }}" class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p onclick="document.getElementById('modal').style.display='none'" class="close-button">&times</p>
+                            <p onclick="document.getElementById('modal-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                         </div>
                         <div class="modal-body">
                             <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
