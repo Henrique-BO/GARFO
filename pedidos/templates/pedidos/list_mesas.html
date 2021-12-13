@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-GARFO
+Lista de Mesas | GARFO
 {% endblock title %}
 
 {% block content %}
@@ -15,52 +15,65 @@ GARFO
 
 <main id="container-central">
 
-    <h1>MESAS</h1>
+    <span>MESAS</span>
 
-    <h3>DISPONÍVEIS</h3>
+    <p>Em funcionameto</p>
 
-    <div id="cards-container">
-    {% if mesas_disp %}
-        {% for mesa in mesas_disp %}
-        <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="card-mesa">
-            <div class="left-part">
-                <div id="table-number">Mesa {{ mesa.id }}</div>
-                <div class="space"></div>
-                <div class="space"></div>
-            </div>
-            <div class="right-part">
-                <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
-                <div class="space"></div>
-                <div id="table-info">{{ mesa.localizacao }}</div>
-            </div>
+    <section id="container-inner-2">
+
+        {% if mesas_disp %}
+            {% for mesa in mesas_disp %}
+                <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="single-card">
+
+                    <div class="left-part">
+                        <div id="table-number"> Mesa {{ mesa.id }}</div>
+                    </div>
+
+                    <div class="right-part">
+                        <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
+                        <br>
+                        <div id="table-info">{{ mesa.localizacao }}</div>
+                    </div>
+
+                </a>
+            {% endfor %}
+        {% endif %}
+
+        <a href="{% url 'pedidos:create_mesa' %}" class="card" id="add-card">
+            <img src="{% static 'plus.svg' %}">
         </a>
-        {% endfor %}
-    {% endif %}
-    </div>
 
-    <h3>INDISPONÍVEIS</h3>
+        
+    
+    </section> 
 
-    <div id="#cards-container">
-    {% if mesas_indisp %}
-        {% for mesa in mesas_indisp %}
-        <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="card-mesa">
-            <div class="left-part">
-                <div id="table-number">Mesa {{ mesa.id }}</div>
-                <div class="space"></div>
-                <div class="space"></div>
-            </div>
-            <div class="right-part">
-                <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
-                <div class="space"></div>
-                <div id="table-info">{{ mesa.localizacao }}</div>
-            </div>
-        </a>
-        {% endfor %}
-    {% endif %}
-    </div>
+    <p>Interditadas</p>
 
-    <a href="{% url 'pedidos:create_mesa' %}"><button>Adicionar mesa</button></a>
+    <section id="container-inner-2">
+
+        {% if mesas_indisp %}
+            {% for mesa in mesas_indisp %}
+                <a href="{% url 'pedidos:detail_mesa' mesa.id %}" class="card" id="single-card">
+
+                    <div class="left-part">
+                        <div id="table-number">Mesa {{ mesa.id }}</div>
+                    </div>
+
+                    <div class="right-part">
+                        <div id="table-info">{{ mesa.capacidade }} Pessoas</div>
+                        <br>
+                        <div id="table-info">{{ mesa.localizacao }}</div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+
+    </section> 
+
+     
 
 </main>
 
 {% endblock content %}
+
+<a href="{% url 'pedidos:create_mesa' %}"><button>Adicionar mesa</button></a>
