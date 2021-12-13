@@ -190,6 +190,10 @@
   padding-left: 32px;
 }
 
+.img-card .right-part {
+  padding-left: 16px;
+}
+
 #table-number {
   color: var(--laranja-escuro);
   font-size: 14px;
@@ -214,10 +218,19 @@
 #item-name {
   font-size: 14px;
   text-transform: uppercase; 
+  font-weight: bold;
   margin: 0;
   display: flex;
   align-items: center;
   overflow-y: auto;
+}
+
+#item-img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 20px;
+
 }
 
 #single-card {
@@ -263,6 +276,111 @@
   box-shadow: none;
 }
 
+/* Layout dos modais */
+
+.modal{
+  z-index: 3;
+  display: none;
+  margin: 4vh;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  overflow-y: initial;
+  background-color: var(--branco);
+  border-radius: 42px;
+  color: var(--cinza-mais-escuro);
+  display: none;
+}
+
+.modal-content{
+  margin: auto;
+  background-color: #fff;
+  position: relative;
+  margin: 4vh;
+  outline: 0;
+}
+
+.modal-body {
+  height: 70vh;
+  overflow-y: auto;
+  margin: 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal-body form {
+  margin: 24px 8px;
+  padding: 4vh;
+  background-color: var(--cinza-claro);
+  border-radius: 2vh;
+  font-size: 14px;
+  align-items: flex-start;
+}
+
+.modal-body form input {
+  font-size: 14px;
+}
+
+.modal-body form button {
+  font-size: 14px;
+  align-self: center;
+}
+
+#id_disponivel {
+  margin: 24px 32px;
+}
+
+.close-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size:40px!important;
+}
+
+.modal img {
+  height: 145px;
+  width: 145px;
+  object-fit: cover;
+  border-radius: 20px;
+  align-self: center;
+  margin: 24px;
+}
+
+.modal .modal-title {
+  text-transform: uppercase;
+  font-size: 14px!important;
+  padding: 8px;
+}
+
+.modal .modal-text {
+  font-weight: normal!important;
+  font-size: 14px!important;
+  padding: 8px;
+}
+
+/* Layout da scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cinza-claro);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cinza-escuro);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cinza-mais-escuro);
+}
+
 /* Layout de blocos gerais com id ou classe */
 
 #img-container {
@@ -277,6 +395,8 @@
 
 #img-container-2 img {
   box-shadow: var(--sombra-clara);
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 #img-container-form {
@@ -285,9 +405,15 @@
   margin-bottom: 4vh;
 }
 
-#return-button {
+#return-button, #bill-button {
   padding-right: 4vh;  
   height: 24px;
+}
+
+#centered-header #exit-button {
+  padding-right: 0;
+  height: 24px;
+  margin-left: 4vh;
 }
 
 #exit-button {
@@ -296,7 +422,7 @@
   margin-left: auto;
 }
 
-#return-button img, #exit-button img {
+#return-button img, #exit-button img, #bill-button img {
   box-shadow: none;
 }
 
@@ -328,7 +454,7 @@
   color: var(--branco);
 }
 
-#no-logout-header {
+#centered-header {
   justify-content: space-between!important;
 }
 
@@ -343,8 +469,6 @@
 img {
   height:100%;
   width: 100%;
-  object-fit: cover;
-  border-radius: 50%;
   box-shadow: var(--sombra-escura);
 }
 
@@ -353,6 +477,7 @@ form {
   flex-direction: column;
   align-items: center;
 }
+
 form button {
   margin: 16px;
 }

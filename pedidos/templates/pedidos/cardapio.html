@@ -1,192 +1,133 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}
-GARFO
-{% endblock title %}
-
-{% block content %}
-
-<header id="cabecalho-principal">
-    {% if user.is_authenticated %}
-        {% if user.cliente %}
-            <a href="{% url 'pedidos:pedir_conta' %}">CONTA</a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#conta">
-                Conta
-            </button>
+{% extends 'base2.html' %}
+  {% load static %}
+  
+  {% block title %}
+  GARFO
+  {% endblock title %}
+  
+  {% block content %}
+  
+  <header id="centered-header"> 
+        {% if user.is_authenticated %}
+        <!-- if user.cliente  -->
+            <a id="bill-button" href="{% url 'pedidos:pedir_conta' %}"><img src="{% static 'bill.svg' %}"></a> 
+        <!-- endif -->
         {% endif %}
-        <a href="{% url 'logout' %}">SAIR</a>
-    {% endif %}
-</header>
+        <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
+        {% if user.is_authenticated %}
+        <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a>
+        {% endif %}
+  </header>
+  
+  <main id="container-central">
+        <span>CARDÁPIO</span>
+        <div id="container-inner-2">
 
-<a href="{% url 'pedidos:index' %}">Voltar</a>
-
-<h1>Cardápio</h1>
-
-{% if item_list %}
-<ul>
-    {% for item in item_list %}
-        <li>{{ item.nome }}</li>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detail_{{ item.id }}">
-            Detalhes ou coisa assim
-        </button>
-        
-        <!-- Modal -->
-        <div class="modal fade" id="detail_{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ item.nome }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {% if item_list %}
+                {% for item in item_list %}
+                <div onclick="document.getElementById('modal-{{ item.id }}').style.display='block'" class="w3-button card img-card" id="single-card">
+                    <div class="left-part">
+                        <img id="item-img" src="{{ item.foto_url }}">
                     </div>
-                    <div class="modal-body">
-                        <img src="{{ item.foto_url }}" alt="foto">
 
-                        {% if user.cliente %}
-                            <p>{{ item.descricao }}</p>
-                            <p>Preço: R${{ item.preco }}</p>
-                            {% if pode_pedir %}
-                                <form method="POST" action="{% url 'pedidos:fazer_pedido' item.id %}">
-                                    {% csrf_token %}
-                                    <label for="observacoes">Observações: </label>
-                                    <input type="text" name="observacoes" id="observacoes">
-                                    <button type="submit">Pedir</button>
-                                </form>
-                            {% endif %}
-                        {% endif %}
-                                
-                        {% if user.gerente %}
-                            <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
-                                {% csrf_token %}
-                                <label for="id_nome">Nome: </label>
-                                <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
-
-                                <label for="id_preco">Preço: </label>
-                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
-                                
-                                <label for="id_descricao">Descrição: </label>
-                                <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
-                                
-                                <label for="id_foto_url">URL da foto: </label>
-                                <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
-                                
-                                <label for="id_disponivel">Disponível: </label>
-                                <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
-
-                                <button type="submit">Atualizar</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    <div class="right-part">
+                        <div id="item-name">{{ item.nome }}</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    {% endfor %}
-</ul>
-{% endif %}
 
-{% if user.gerente %}
-    {% if item_indisp %}
-        <h3>Itens indisponíveis</h3>
-        <ul>
-            {% for item in item_indisp %}
-                <li>{{ item.nome }}</li>
-
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detail_{{ item.id }}">
-                    Detalhes ou coisa assim
-                </button>
-                
                 <!-- Modal -->
-                <div class="modal fade" id="detail_{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{ item.nome }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="{{ item.foto_url }}" alt="foto">
-
-                                <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
+                <div id="modal-{{ item.id }}" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p onclick="document.getElementById('modal').style.display='none'" class="close-button">&times</p>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                            <p class="modal-title">{{ item.nome }}</p>
+                                <!-- if user.cliente  -->
+                                <p class="modal-text">{{ item.descricao }}</p>
+                                <p class="modal-text">Preço: R${{ item.preco|stringformat:".2f" }}</p>
+                                <!-- if pode_pedir -->
+                                    <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                        {% csrf_token %}
+                                        <div>
+                                            <label for="observacoes">Observações: </label>
+                                            <input type="text" name="observacoes" id="observacoes">
+                                        </div>
+                                        <button type="submit">PEDIR</button>
+                                    </form>
+                                    <!-- endif  -->
+                            <!-- endif  -->
+                                    
+                            <!-- if user.gerente  -->
+                                <form method="POST" action="{% url 'pedidos:cardapio' %}">
                                     {% csrf_token %}
-                                    <label for="id_nome">Nome: </label>
-                                    <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+                                    <div>
+                                        <label for="id_nome">Nome: </label>
+                                        <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+                                    </div>
 
-                                    <label for="id_preco">Preço: </label>
-                                    <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
-                                    
-                                    <label for="id_descricao">Descrição: </label>
-                                    <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
-                                    
-                                    <label for="id_foto_url">URL da foto: </label>
-                                    <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
-                                    
-                                    <label for="id_disponivel">Disponível: </label>
-                                    <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
+                                    <div>
+                                        <label for="id_preco">Preço: </label>
+                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                    </div>
 
-                                    <button type="submit">Atualizar</button>
+                                    <div>
+                                        <label for="id_descricao">Descrição: </label>
+                                        <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
+                                    </div>
+
+                                    <div>
+                                        <label for="id_foto_url">URL da foto: </label>
+                                        <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}" maxlength="255">
+                                    </div>
+
+                                    <div>
+                                        <label for="id_disponivel">Disponível: </label>
+                                        <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %} >
+                                    </div>
+
+                                    <button type="submit">ATUALIZAR</button>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                            </div>
+                            <!-- endif  -->
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button> -->
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                         </div>
                     </div>
+                  </div>
+
+                {% endfor %}
+
+                <!-- if user.gerente  -->
+                <div class="card" id="add-card">
+                    <img src="{% static 'plus.svg' %}">
                 </div>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                <!-- endif -->
 
+            {% endif %}
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_item">
-        Criar item
-    </button>
-    
-    <!-- Modal -->
-    <div class="modal fade" id="create_item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Criar item</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <form method="POST" action="{% url 'pedidos:create_item' %}">
-                        {% csrf_token %}
-                        <label for="id_nome">Nome: </label>
-                        <input type="text" name="nome" required id="id_nome">
-
-                        <label for="id_preco">Preço: </label>
-                        <input type="number" step="any" name="preco" required id="id_preco">
-                        
-                        <label for="id_descricao">Descrição: </label>
-                        <input type="text" name="descricao" required id="id_descricao">
-                        
-                        <label for="id_foto_url">URL da foto: </label>
-                        <input type="url" name="foto_url" required id="id_foto_url" maxlength="255">
-                        
-                        <label for="id_disponivel">Disponível: </label>
-                        <input type="checkbox" name="disponivel" id="id_disponivel">
-
-                        <button type="submit">Atualizar</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                </div>
-            </div>
+            {% if user.gerente %}
+            {% if item_indisp %}
+                    <p>ITENS INDISPONÍVEIS</p>
+                        {% for item in item_indisp %}
+                        <div class="card">
+                            <div class="left-part">
+                                <div class="space"></div>
+                                <div class="space"></div>
+                                <div class="space"></div>
+                            </div>
+        
+                            <div class="right-part">
+                                <div id="item-name">{{ item.nome }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+            {% endif %}
+            {% endif %}
+        
         </div>
-    </div>
-{% endif %}
-
-{% endblock content %}
+  </main>
+  
+  {% endblock content %}
