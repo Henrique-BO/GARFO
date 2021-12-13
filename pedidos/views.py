@@ -206,13 +206,9 @@ def create_mesa(request):
         if mesa_form.is_valid():
             mesa = Mesa(**mesa_form.cleaned_data)
             mesa.save()
-            return HttpResponseRedirect(
-                reverse('pedidos:detail_mesa', args=(mesa.pk, ))
-            )
-    else:
-        mesa_form = MesaForm()
-    context = {'mesa_form': mesa_form}
-    return render(request, 'pedidos/create_mesa.html', context)
+    return HttpResponseRedirect(
+        reverse('pedidos:list_mesas')
+    )
 
 @login_required
 @permission_required('pedidos.change_mesa')
@@ -225,16 +221,6 @@ def update_mesa(request, mesa_id):
             mesa.localizacao = mesa_form.cleaned_data['localizacao']
             mesa.disponivel = mesa_form.cleaned_data['disponivel']
             mesa.save()
-            return HttpResponseRedirect(
-                reverse('pedidos:detail_mesa', args=(mesa.pk,))
-            )
-    else:
-        mesa_form = MesaForm(
-            initial={
-                'capacidade': mesa.capacidade,
-                'localizacao': mesa.localizacao,
-                'disponivel': mesa.disponivel,
-            }
-        )
-    context = {'mesa_form': mesa_form, 'mesa': mesa}
-    return render(request, 'pedidos/update_mesa.html', context)
+    return HttpResponseRedirect(
+        reverse('pedidos:list_mesas')
+    )

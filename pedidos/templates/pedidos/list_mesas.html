@@ -36,6 +36,42 @@ Lista de Mesas | GARFO
                     </div>
 
                 </a>
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mesa{{ mesa.id }}">
+                    Editar
+                </button>
+                
+                <div class="modal fade" id="mesa{{ mesa.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ mesa.nome }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% if user.gerente %}
+                                    <form method="POST" action="{% url 'pedidos:update_mesa' mesa.id %}">
+                                        {% csrf_token %}
+                                        <label for="id_capacidade">Capacidade: </label>
+                                        <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
+        
+                                        <label for="id_localizacao">Localização: </label>
+                                        <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
+                                        
+                                        <label for="id_disponivel">Disponível: </label>
+                                        <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
+        
+                                        <button type="submit">Atualizar</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             {% endfor %}
         {% endif %}
 
@@ -43,7 +79,40 @@ Lista de Mesas | GARFO
             <img src="{% static 'plus.svg' %}">
         </a>
 
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#create">
+            <img src="{% static 'plus.svg' %}">
+        </button>
         
+        <div class="modal fade" id="create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Criar mesa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if user.gerente %}
+                            <form method="POST" action="{% url 'pedidos:create_mesa' %}">
+                                {% csrf_token %}
+                                <label for="id_capacidade">Capacidade: </label>
+                                <input type="number" step="1" name="capacidade" required id="id_capacidade">
+
+                                <label for="id_localizacao">Localização: </label>
+                                <input type="text" name="localizacao" required id="id_localizacao">
+                                
+                                <label for="id_disponivel">Disponível: </label>
+                                <input type="checkbox" name="disponivel" id="id_disponivel" checked>
+
+                                <button type="submit">Criar</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     
     </section> 
 
@@ -65,6 +134,41 @@ Lista de Mesas | GARFO
                         <div id="table-info">{{ mesa.localizacao }}</div>
                     </div>
                 </a>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mesa{{ mesa.id }}">
+                    Editar
+                </button>
+                
+                <div class="modal fade" id="mesa{{ mesa.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ mesa.nome }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% if user.gerente %}
+                                    <form method="POST" action="{% url 'pedidos:update_mesa' mesa.id %}">
+                                        {% csrf_token %}
+                                        <label for="id_capacidade">Capacidade: </label>
+                                        <input type="number" step="1" name="capacidade" required id="id_capacidade" value="{{ mesa.capacidade }}">
+        
+                                        <label for="id_localizacao">Localização: </label>
+                                        <input type="text" name="localizacao" required id="id_localizacao" value='{{ mesa.localizacao }}'>
+                                        
+                                        <label for="id_disponivel">Disponível: </label>
+                                        <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
+        
+                                        <button type="submit">Atualizar</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         {% endif %}
 
