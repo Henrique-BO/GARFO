@@ -13,7 +13,7 @@
             <a id="bill-button" href="{% url 'pedidos:pedir_conta' %}"><img src="{% static 'bill_purple.svg' %}"></a> 
         <!-- endif -->
         {% endif %}
-        <div id="img-container-2"><img src="{% static 'logo.jpg' %}"></div> 
+        <div id="img-container-2"><img src="{% static 'logo.svg' %}"></div> 
         {% if user.is_authenticated %}
         <a id="exit-button" href="{% url 'logout' %}"><img src="{% static 'exit.svg' %}"></a>
         {% endif %}
