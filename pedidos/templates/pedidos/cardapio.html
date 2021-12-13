@@ -9,9 +9,9 @@
   
   <header id="centered-header"> 
         {% if user.is_authenticated %}
-        <!-- if user.cliente  -->
+        {% if user.cliente %}
             <a id="bill-button" href="{% url 'pedidos:pedir_conta' %}"><img src="{% static 'bill_purple.svg' %}"></a> 
-        <!-- endif -->
+        {% endif %}
         {% endif %}
         <div id="img-container-2"><img src="{% static 'logo.svg' %}"></div> 
         {% if user.is_authenticated %}
@@ -25,7 +25,7 @@
 
             {% if item_list %}
                 {% for item in item_list %}
-                <div onclick="document.getElementById('modal-{{ item.id }}').style.display='block'" class="w3-button card img-card" id="single-card">
+                <div onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="w3-button card img-card" id="single-card">
                     <div class="left-part">
                         <img id="item-img" src="{{ item.foto_url }}">
                     </div>
@@ -36,18 +36,18 @@
                 </div>
 
                 <!-- Modal -->
-                <div id="modal-{{ item.id }}" class="modal">
+                <div id="modal-item-{{ item.id }}" class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p onclick="document.getElementById('modal-{{ item.id }}').style.display='none'" class="close-button">&times</p>
+                            <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                         </div>
                         <div class="modal-body">
                             <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
                             <p class="modal-title">{{ item.nome }}</p>
-                                <!-- if user.cliente  -->
+                                {% if user.cliente %}
                                 <p class="modal-text">{{ item.descricao }}</p>
                                 <p class="modal-text">Preço: R${{ item.preco|stringformat:".2f" }}</p>
-                                <!-- if pode_pedir -->
+                                {% if pode_pedir %}
                                     <form method="POST" action="{% url 'pedidos:cardapio' %}">
                                         {% csrf_token %}
                                         <div>
@@ -56,10 +56,10 @@
                                         </div>
                                         <button type="submit">PEDIR</button>
                                     </form>
-                                    <!-- endif  -->
-                            <!-- endif  -->
+                                    {% endif %}
+                            {% endif %}
                                     
-                            <!-- if user.gerente  -->
+                            {% if user.gerente %}
                                 <form method="POST" action="{% url 'pedidos:cardapio' %}">
                                     {% csrf_token %}
                                     <div>
@@ -89,22 +89,18 @@
 
                                     <button type="submit">ATUALIZAR</button>
                                 </form>
-                            <!-- endif  -->
-                        </div>
-                        <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button> -->
-                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                            {% endif %}
                         </div>
                     </div>
                   </div>
 
                 {% endfor %}
 
-                <!-- if user.gerente  -->
+                {% if user.gerente %}
                 <div class="card" id="add-card">
                     <img src="{% static 'plus.svg' %}">
                 </div>
-                <!-- endif -->
+                {% endif %}
 
             {% endif %}
 

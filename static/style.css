@@ -359,6 +359,13 @@
   padding: 8px;
 }
 
+.modal .modal-title-mesa {
+  padding: 0;
+  margin: 0;
+  font-size: 18px!important;
+  align-self: center;
+}
+
 .modal .modal-text {
   font-weight: normal!important;
   font-size: 14px!important;
