@@ -14,7 +14,7 @@ Entrar
 <main id="container-central">
     <h1>ENTRAR</h1>
 
-    <form method="post" action="{% url 'accounts:client_login' %}">
+    <form method="post" action="{% url 'accounts:cliente_login' %}">
         {% csrf_token %}
         {{ form.as_p }}
         
@@ -33,6 +33,6 @@ Entrar
         <input type="hidden" name="next" value="{{ next }}">
     </form>
 
-    <p> Não tem uma conta? <a href="{% url 'accounts:client_signup_user' %}">Cadastre-se!</a></p>
+    <p> Não tem uma conta? <a href="{% url 'accounts:cliente_signup' %}">Cadastre-se!</a></p>
 </main>
 {% endblock %}

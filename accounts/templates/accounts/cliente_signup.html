@@ -12,15 +12,15 @@ Cadastrar
     <div id="no-img"></div>
 </header>
 
-<main id="container-central">
+<main id="container-central" action="{% url 'accounts:cliente_signup' %}">
     <h1>CADASTRAR</h1>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <a href="{% url 'accounts:client_signup' %}"><button type="submit">Continuar</button></a>
+        <button type="submit">Cadastre-se</button>
     </form>
 
-    <p> Já tem uma conta? <a href="{% url 'accounts:client_login' %}">Entrar.</a></p>
+    <p> Já tem uma conta? <a href="{% url 'accounts:cliente_login' %}">Entrar.</a></p>
 </main>
 {% endblock %}

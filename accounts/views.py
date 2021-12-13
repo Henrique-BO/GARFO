@@ -3,64 +3,49 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-from accounts.forms import ClientCreationForm, ClientUserCreationForm, UserLoginForm, ClientMesaForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from cpf_field.forms import CPFFieldForm
+
+from accounts.forms import ClienteCreationForm, ClientLoginForm
 from accounts.models import Cliente
 
-def client_signup_user(request):
+def cliente_signup(request):
     if request.method == 'POST':
-        form = ClientUserCreationForm(request.POST)
+        form = ClienteCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
-                                    )
-            login(request, new_user)
-            return HttpResponseRedirect(reverse('index'))
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+            )
+            cpf = form.cleaned_data['cpf']
+            mesa = form.cleaned_data['mesa']
+            cliente = Cliente(user=user, cpf=cpf, mesa=mesa)
+            cliente.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse('pedidos:index'))
     else:
-        form = ClientUserCreationForm()
+        form = ClienteCreationForm()
 
     context = {'form': form}
-    return render(request, 'accounts/client_signup_user.html', context)
+    return render(request, 'accounts/cliente_signup.html', context)
 
-def client_signup(request):
+def cliente_login(request):
     if request.method == 'POST':
-        form = ClientCreationForm(request.POST)
+        form = ClientLoginForm(data=request.POST)
         if form.is_valid():
-            client_user = request.user
-            client_cpf = form.cleaned_data['cpf']
-            client_mesa = form.cleaned_data['mesa']
-            client = Cliente(user=client_user,
-                            cpf=client_cpf,
-                            mesa=client_mesa)
-            client.save()
-            return HttpResponseRedirect(reverse('index'))
+            user = form.get_user()
+            try:
+                cliente = user.cliente
+                cliente.mesa = form.cleaned_data['mesa']
+                print(cliente.mesa)
+                cliente.save()
+                login(request, form.get_user())
+                return HttpResponseRedirect(reverse('pedidos:index'))
+            except:
+                pass
     else:
-        form = ClientCreationForm()
+        form = ClientLoginForm()
 
     context = {'form': form}
-    return render(request, 'accounts/client_signup.html', context)
-
-def client_login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('accounts:client_login_mesa'))
-    else:
-        form = UserLoginForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/client_login.html', context)
-
-def client_login_mesa(request):
-    if request.method == 'POST':
-        form = ClientMesaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('pedidos:cardapio'))
-    else:
-        form = ClientMesaForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/client_login.html', context)
+    return render(request, 'accounts/cliente_login.html', context)
