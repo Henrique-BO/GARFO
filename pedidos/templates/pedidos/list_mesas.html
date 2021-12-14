@@ -90,7 +90,7 @@ Lista de Mesas | GARFO
                         <p style="cursor:pointer;" onclick="document.getElementById('modal-add-mesa').style.display='none'" class="close-button">&times</p>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-title modal-title-mesa">Adicionar mesa</p>
+                        <p class="modal-title modal-title-mesa">Nova mesa</p>
                             <form method="POST" action="{% url 'pedidos:create_mesa' %}">
                                 {% csrf_token %}
                                 <div>
@@ -108,7 +108,7 @@ Lista de Mesas | GARFO
                                     <input type="checkbox" name="disponivel" id="id_disponivel" {% if mesa.disponivel %} checked {% endif %} >
                                 </div>
 
-                                <button type="submit">ADICIONAR</button>
+                                <button type="submit">CRIAR</button>
                             </form>
                     </div>
                     </div>

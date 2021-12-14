@@ -31,16 +31,16 @@ GARFO
                 </div>
                 <div class="modal-body">
                     {% if pode_pedir %}
-                        Pedidos feitos
+                        <p class="modal-title-conta">Pedidos feitos:</p>
                         {% if pedidos %}
                             <ul>
                                 {% for pedido in pedidos %}
                                     <li>{{ pedido.item.nome }}: R${{ pedido.item.preco|floatformat:2 }}</li>
                                 {% endfor %}
                             </ul>
-                            <p>Total: R${{ total|floatformat:2 }}</p>
+                            <p class="item-price">Total: R${{ total|floatformat:2 }}</p>
                         {% else %}
-                            <p>Você não pediu nada ainda</p>
+                            <p class="modal-text">Você não pediu nada ainda</p>
                         {% endif %}
                         <form method="POST" action="{% url 'pedidos:pedir_conta' %}">
                             {% csrf_token %}
@@ -49,14 +49,14 @@ GARFO
                     {% endif %}
 
                     {% if conta %}
-                        <p>Conta aberta:</p>
+                        <p class="modal-title-conta">Conta aberta:</p>
                         <ul>
                             {% for pedido in conta.pedido_set.all %}
                                 <li>{{ pedido.item.nome }}: R${{ pedido.item.preco|floatformat:2 }}</li>
                             {% endfor %}
                         </ul>
                         
-                        <p>Total: R${{ total|floatformat:2 }}</p>
+                        <p class="item-price">Total: R${{ total|floatformat:2 }}</p>
                     {% endif %}
                 </div>
             </div>
@@ -91,7 +91,7 @@ GARFO
                             <p class="modal-title">{{ item.nome }}</p>
                             {% if user.cliente %}
                                 <p class="modal-text">{{ item.descricao }}</p>
-                                <p class="modal-text item-price">Preço: R${{ item.preco|stringformat:".2f" }}</p>
+                                <p class="modal-text item-price">Preço: R${{ item.preco|floatformat:2 }}</p>
                                 {% if pode_pedir %}
                                     <form method="POST" action="{% url 'pedidos:fazer_pedido' item.id %}">
                                         {% csrf_token %}
@@ -120,7 +120,7 @@ GARFO
 
                                     <div>
                                         <label for="id_preco">Preço: </label>
-                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
                                     </div>
 
                                     <div>
@@ -162,7 +162,7 @@ GARFO
                         <p style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='none'" class="close-button">&times</p>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-title modal-title-mesa">Adicionar item</p>
+                        <p class="modal-title modal-title-mesa">Novo item</p>
 
                         <form method="POST" action="{% url 'pedidos:create_item' %}">
                             {% csrf_token %}
@@ -173,7 +173,7 @@ GARFO
 
                             <div>
                                 <label for="id_preco">Preço: </label>
-                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
                             </div>
 
                             <div>
@@ -192,7 +192,7 @@ GARFO
                                 <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %}>
                             </div>
 
-                            <button type="submit">ATUALIZAR</button>
+                            <button type="submit">CRIAR</button>
                         </form>
                     </div>
                 </div>
@@ -239,7 +239,7 @@ GARFO
 
                                     <div>
                                         <label for="id_preco">Preço: </label>
-                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
                                     </div>
 
                                     <div>

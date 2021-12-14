@@ -46,14 +46,14 @@ Lista de contas | GARFO
                                     <p style="cursor:pointer;" onclick="document.getElementById('modal-conta-{{ conta.id }}').style.display='none'" class="close-button">&times</p>
                                 </div>
                                 <div class="modal-body">                
-                                    <p>{{ conta }}:</p>
+                                    <p class="modal-title-conta">{{ conta }}:</p>
                                     <ul>
                                         {% for pedido in conta.pedido_set.all %}
                                             <li>{{ pedido.item.nome }}: R${{ pedido.item.preco|floatformat:2 }}</li>
                                         {% endfor %}
                                     </ul>
                                     
-                                    <p>Total: R${{ totais|get_item:conta.id|floatformat:2 }}</p>
+                                    <p class="item-price">Total: R${{ totais|get_item:conta.id|floatformat:2 }}</p>
 
                                     {% if user.garcom %}
                                         <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
