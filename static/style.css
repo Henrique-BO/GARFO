@@ -233,6 +233,15 @@
   overflow-y: auto;
 }
 
+#observacao {
+  font-size: 12px;
+  font-weight: normal;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+}
+
 #item-img {
   height: 80px;
   width: 80px;
