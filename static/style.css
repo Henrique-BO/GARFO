@@ -493,11 +493,13 @@
 }
 
 #body_roxo .errortext {
+  font-size: 16px;
   color: var(--roxo-claro);
 }
 
 #body_cinza .errortext {
   font-size: 16px;
+  text-align: center
 }
 
 
