@@ -21,7 +21,7 @@ class ClientLoginForm(AuthenticationForm):
          'class': 'form-control',
          'placeholder': 'Senha',
       }))
-   mesa = forms.ModelChoiceField(queryset=Mesa.objects.all(), empty_label="Escolha uma mesa")
+   mesa = forms.ModelChoiceField(queryset=Mesa.objects.filter(disponivel=True), empty_label="Escolha uma mesa")
 
 class ClienteCreationForm(UserCreationForm):
    def __init__(self, * args, ** kwargs): super(UserCreationForm, self).__init__( * args, ** kwargs)
@@ -46,6 +46,6 @@ class ClienteCreationForm(UserCreationForm):
          'class': 'form-control',
          'placeholder': 'Repita a senha',
       }))
-   mesa = forms.ModelChoiceField(queryset=Mesa.objects.all(), empty_label="Escolha uma mesa")
+   mesa = forms.ModelChoiceField(queryset=Mesa.objects.filter(disponivel=True), empty_label="Escolha uma mesa")
 
    field_order = ['username', 'cpf', 'password1', 'password2', 'mesa']

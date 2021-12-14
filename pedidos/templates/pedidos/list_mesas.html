@@ -25,7 +25,7 @@ Lista de Mesas | GARFO
 
         {% if mesas_disp %}
             {% for mesa in mesas_disp %}
-                <div onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='block'" class="card" id="single-card">
+                <div style="cursor:pointer;" onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='block'" class="card" id="single-card">
 
                     <div class="left-part">
                         <div id="table-number"> Mesa {{ mesa.id }}</div>
@@ -43,7 +43,7 @@ Lista de Mesas | GARFO
                     <div class="modal">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
+                                <p style="cursor:pointer;" onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
                             </div>
                             <div class="modal-body">
                                 <p class="modal-title modal-title-mesa">Mesa {{ mesa.id }}</p>
@@ -78,7 +78,7 @@ Lista de Mesas | GARFO
         {% endif %}
         
         {% if user.gerente %}
-        <div onclick="document.getElementById('modal-add-mesa').style.display='block'" class="card" id="add-card">
+        <div style="cursor:pointer;" onclick="document.getElementById('modal-add-mesa').style.display='block'" class="card" id="add-card">
             <img src="{% static 'plus.svg' %}">
         </div>
 
@@ -87,7 +87,7 @@ Lista de Mesas | GARFO
             <div class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p onclick="document.getElementById('modal-add-mesa').style.display='none'" class="close-button">&times</p>
+                        <p style="cursor:pointer;" onclick="document.getElementById('modal-add-mesa').style.display='none'" class="close-button">&times</p>
                     </div>
                     <div class="modal-body">
                         <p class="modal-title modal-title-mesa">Adicionar mesa</p>
@@ -125,7 +125,7 @@ Lista de Mesas | GARFO
 
         {% if mesas_indisp %}
             {% for mesa in mesas_indisp %}
-                <div onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='block'" class="card" id="single-card">
+                <div style="cursor:pointer;" onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='block'" class="card" id="single-card">
                     <div class="left-part">
                         <div id="table-number">Mesa {{ mesa.id }}</div>
                     </div>
@@ -142,7 +142,7 @@ Lista de Mesas | GARFO
                     <div class="modal">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <p onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
+                                <p style="cursor:pointer;" onclick="document.getElementById('modal-mesa-{{ mesa.id }}').style.display='none'" class="close-button">&times</p>
                             </div>
                             <div class="modal-body">
                                 <p class="modal-title modal-title-mesa"> Mesa {{ mesa.id }}</p>

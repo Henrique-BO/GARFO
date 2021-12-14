@@ -147,60 +147,60 @@ GARFO
                 </div>
             </div>
             {% endfor %}
+        {% endif %}
 
-            {% if user.gerente %}
-            <div style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='block'" class="card" id="add-card">
-                <img src="{% static 'plus.svg' %}">
-            </div>
+        {% if user.gerente %}
+        <div style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='block'" class="card" id="add-card">
+            <img src="{% static 'plus.svg' %}">
+        </div>
 
-            <!-- Modal adicionar item -->
-            <div id="modal-add-item" class="background">
-                <div class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <p style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='none'" class="close-button">&times</p>
-                        </div>
-                        <div class="modal-body">
-                            <p class="modal-title modal-title-mesa">Adicionar item</p>
+        <!-- Modal adicionar item -->
+        <div id="modal-add-item" class="background">
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='none'" class="close-button">&times</p>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-title modal-title-mesa">Adicionar item</p>
 
-                            <form method="POST" action="{% url 'pedidos:create_item' %}">
-                                {% csrf_token %}
-                                <div>
-                                    <label for="id_nome">Nome: </label>
-                                    <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
-                                </div>
+                        <form method="POST" action="{% url 'pedidos:create_item' %}">
+                            {% csrf_token %}
+                            <div>
+                                <label for="id_nome">Nome: </label>
+                                <input type="text" name="nome" required id="id_nome" value="{{ item.nome }}">
+                            </div>
 
-                                <div>
-                                    <label for="id_preco">Preço: </label>
-                                    <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
-                                </div>
+                            <div>
+                                <label for="id_preco">Preço: </label>
+                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
+                            </div>
 
-                                <div>
-                                    <label for="id_descricao">Descrição: </label>
-                                    <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
-                                </div>
+                            <div>
+                                <label for="id_descricao">Descrição: </label>
+                                <input type="text" name="descricao" required id="id_descricao" value="{{ item.descricao }}">
+                            </div>
 
-                                <div>
-                                    <label for="id_foto_url">URL da foto: </label>
-                                    <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}"
-                                        maxlength="255">
-                                </div>
+                            <div>
+                                <label for="id_foto_url">URL da foto: </label>
+                                <input type="url" name="foto_url" required id="id_foto_url" value="{{ item.foto_url }}"
+                                    maxlength="255">
+                            </div>
 
-                                <div>
-                                    <label for="id_disponivel">Disponível: </label>
-                                    <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %}>
-                                </div>
+                            <div>
+                                <label for="id_disponivel">Disponível: </label>
+                                <input type="checkbox" name="disponivel" id="id_disponivel" {% if item.disponivel %} checked {% endif %}>
+                            </div>
 
-                                <button type="submit">ATUALIZAR</button>
-                            </form>
-                        </div>
+                            <button type="submit">ATUALIZAR</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            {% endif %}
+        </div>
 
         {% endif %}
+
     </section>
 
     {% if user.gerente %}
