@@ -7,6 +7,25 @@ Pedidos | GARFO
 
 {% block content %}
 
+<script type="text/javascript">
+    let pedidos;
+    let pedidos_old;
+    function check_server() {
+        fetch('http://127.0.0.1:8000/api/v1/pedidos/')
+            .then((response) => response.json())
+            .then((result) => pedidos = JSON.stringify(result))
+            .catch((error) => error);
+        if (!pedidos_old) {
+            pedidos_old = pedidos;
+        } else if (pedidos !== pedidos_old) {
+            console.log("Servidor atualizado, recarregando");
+            document.location.reload(true);
+        }
+    }
+
+    let tid = setInterval(check_server, 5*1000);
+</script>
+
 <header> 
     <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a> 
     <div id="img-container-2"><img src="{% static 'logo.svg' %}"></div> 

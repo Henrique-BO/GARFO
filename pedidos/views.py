@@ -40,20 +40,29 @@ def index(request):
 def cardapio(request):
     item_list = Item.objects.filter(disponivel=True)
     item_indisp = Item.objects.filter(disponivel=False)
-
+    context = {'item_list': item_list, 'item_indisp': item_indisp}
+    
     if request.user.is_authenticated:
-        pode_pedir = True
+        context['pode_pedir'] = True
         try:
             cliente = request.user.cliente
             for conta in Conta.objects.filter(pago=False):
                 if conta.pedido_set.all()[0].cliente == cliente:
-                    pode_pedir = False
+                    context['conta'] = conta
+                    context['total'] = 0
+                    for pedido in conta.pedido_set.all():
+                        context['total'] += pedido.item.preco
+                    context['pode_pedir'] = False
+            if context['pode_pedir']:
+                context['pedidos'] = Pedido.objects.filter(cliente=cliente).filter(conta=None)
+                context['total'] = 0
+                for pedido in context['pedidos']:
+                    context['total'] += pedido.item.preco
         except ObjectDoesNotExist:
-            pode_pedir = False
+            context['pode_pedir'] = False
     else:
-        pode_pedir = False
+        context['pode_pedir'] = False
 
-    context = {'item_list': item_list, 'item_indisp': item_indisp, 'pode_pedir': pode_pedir}
     return render(request, 'pedidos/cardapio.html', context)
 
 @login_required
@@ -145,23 +154,16 @@ def list_pedidos(request):
 @login_required
 @permission_required('pedidos.add_conta')
 def pedir_conta(request):
-    cliente = request.user.cliente
-    for conta in Conta.objects.filter(pago=False):
-        if conta.pedido_set.all()[0].cliente == cliente:
-            return HttpResponseRedirect(reverse('pedidos:detail_conta', args=(conta.id,)))
-    pedidos = Pedido.objects.filter(cliente=cliente).filter(conta=None)
     if request.method == 'POST':
-        conta = Conta(pago=False)
-        conta.save()
-        for pedido in pedidos:
-            pedido.conta = conta
-            pedido.save()
-        return HttpResponseRedirect(reverse('pedidos:detail_conta', args=(conta.id,)))
-    total = 0
-    for pedido in pedidos:
-        total += pedido.item.preco
-    context = {'pedidos': pedidos, 'total': total}
-    return render(request, 'pedidos/pedir_conta.html', context)
+        cliente = request.user.cliente
+        pedidos = Pedido.objects.filter(cliente=cliente).filter(conta=None)
+        if pedidos:
+            conta = Conta(pago=False)
+            conta.save()
+            for pedido in pedidos:
+                pedido.conta = conta
+                pedido.save()
+    return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
 def detail_conta(request, conta_id):
