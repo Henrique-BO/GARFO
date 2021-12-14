@@ -21,6 +21,8 @@ Cadastrar | GARFO
         {% csrf_token %}
         {{ form.as_p }}
         
+        <br>
+        
         {% if form.errors %}
             {% for field in form.errors %}
                 {% for error in form.errors|get_item:field %}
