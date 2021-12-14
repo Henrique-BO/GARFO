@@ -263,7 +263,6 @@
   display: flex;
   align-content: center;
   justify-content: center;
-  
   height: 50px;
   width: 50px;
   border-radius: 100%;
@@ -313,9 +312,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: fit-content;
-  max-width: 80%;
-  height: fit-content;
+  width: 500px;
+  height: 500px;
   overflow-y: initial;
   background-color: var(--branco);
   border-radius: 42px;
@@ -359,11 +357,41 @@
 
 .modal-body form input {
   font-size: 14px;
+  box-shadow: var(--sombra-clara);
 }
 
 .modal-body form button {
   font-size: 14px;
   align-self: center;
+  box-shadow: var(--sombra-clara);
+}
+
+#div-qtde-pedir {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#div-quantidade {
+  background-color: var(--cinza-escuro);
+  border-radius: 42px;
+  margin: 8px;
+  padding-left: 24px;
+  box-shadow: var(--sombra-clara);
+  color: var(--branco);
+  font-weight: bold;
+  width: fit-content;
+  height: fit-content;
+}
+
+#quantidade {
+  width: 70px;
+  background-color: transparent;
+  box-shadow: none;
+  margin: 0;
+  padding-right: 8px;
+  color: inherit;
+  font-weight: inherit;
 }
 
 #id_disponivel {
@@ -376,13 +404,20 @@
   margin: 0;
 }
 
-.modal img {
+.modal .modal-img-container {
   height: 145px;
   width: 145px;
+  align-self: center;
+  margin: 0 24px 24px 24px;
+}
+
+.modal img {
+  min-height: 145px;
+  min-width: 145px;
   object-fit: cover;
   border-radius: 20px;
   align-self: center;
-  margin: 0 24px 24px 24px;
+  box-shadow: none;
 }
 
 .modal .modal-title {
@@ -403,6 +438,11 @@
   font-size: 14px!important;
   padding: 8px;
   max-width: 450px;
+}
+
+.modal .item-price {
+  font-weight: bold!important;
+  color: var(--laranja-escuro);
 }
 
 /* Layout da scrollbar */
@@ -615,4 +655,16 @@ button:hover{
 
 form ul li, form ul {
   display: none;
+}
+
+@media screen and (max-width: 720px){
+  #container-central span, #container-central h3{
+    align-self: center;
+    padding: 0;
+  }
+
+  #container-inner-2 {
+    align-self: center;
+    justify-content: center;
+  }
 }

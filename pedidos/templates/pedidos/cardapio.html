@@ -85,11 +85,13 @@ GARFO
                             <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                         </div>
                         <div class="modal-body">
-                            <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                            <div class="modal-img-container">
+                                <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                            </div> 
                             <p class="modal-title">{{ item.nome }}</p>
                             {% if user.cliente %}
                                 <p class="modal-text">{{ item.descricao }}</p>
-                                <p class="modal-text">Preço: R${{ item.preco|stringformat:".2f" }}</p>
+                                <p class="modal-text item-price">Preço: R${{ item.preco|stringformat:".2f" }}</p>
                                 {% if pode_pedir %}
                                     <form method="POST" action="{% url 'pedidos:cardapio' %}">
                                         {% csrf_token %}
@@ -97,7 +99,13 @@ GARFO
                                             <label for="observacoes">Observações: </label>
                                             <input type="text" name="observacoes" id="observacoes">
                                         </div>
-                                        <button type="submit">PEDIR</button>
+                                        <div id="div-qtde-pedir">
+                                            <div id="div-quantidade">
+                                                <label for="quantidade">QTDE:</label>
+                                                <input type="number" name="quantidade" id="quantidade">
+                                            </div>
+                                            <button type="submit">PEDIR</button>
+                                        </div>
                                     </form>
                                 {% endif %}
                             {% endif %}
@@ -218,11 +226,13 @@ GARFO
                                 <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                             </div>
                             <div class="modal-body">
-                                <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                                <div class="modal-img-container">
+                                    <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
+                                </div>
                                 <p class="modal-title">{{ item.nome }}</p>
                                     {% if user.cliente %}
                                     <p class="modal-text">{{ item.descricao }}</p>
-                                    <p class="modal-text">Preço: R${{ item.preco|stringformat:".2f" }}</p>
+                                    <p class="modal-text item-price">Preço: R${{ item.preco|stringformat:".2f" }}</p>
                                         {% if pode_pedir %}
                                         <form method="POST" action="{% url 'pedidos:cardapio' %}">
                                             {% csrf_token %}
@@ -230,7 +240,10 @@ GARFO
                                                 <label for="observacoes">Observações: </label>
                                                 <input type="text" name="observacoes" id="observacoes">
                                             </div>
-                                            <button type="submit">PEDIR</button>
+                                            <div>
+                                                <input type="number" name="quantidade" id="quantidade">
+                                                <button type="submit">PEDIR</button>
+                                            </div>
                                         </form>
                                         {% endif %}
                                 {% endif %}
