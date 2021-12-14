@@ -1,2 +1,2 @@
-web: gunicorn moviesite.wsgi
+web: gunicorn garfo.wsgi
 release: python manage.py migrate
