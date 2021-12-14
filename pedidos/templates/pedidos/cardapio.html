@@ -10,7 +10,7 @@ GARFO
 <header id="centered-header">
     {% if user.is_authenticated %}
         {% if user.cliente %}
-            <div id="bill-button" onclick="document.getElementById('modal-conta').style.display='block'"><img src="{% static 'bill_purple.svg' %}"></div>
+            <div id="bill-button" style="cursor:pointer;" onclick="document.getElementById('modal-conta').style.display='block'"><img src="{% static 'bill_purple.svg' %}"></div>
         {% else %}
             <a id="return-button" href="{% url 'pedidos:index' %}"><img src="{% static 'arrow_back.svg' %}"></a>
         {% endif %}
@@ -27,7 +27,7 @@ GARFO
         <div class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p onclick="document.getElementById('modal-conta').style.display='none'" class="close-button">&times</p>
+                    <p style="cursor:pointer;" onclick="document.getElementById('modal-conta').style.display='none'" class="close-button">&times</p>
                 </div>
                 <div class="modal-body">
                     {% if pode_pedir %}
@@ -42,7 +42,7 @@ GARFO
                         {% else %}
                             <p>Você não pediu nada ainda</p>
                         {% endif %}
-                        <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                        <form method="POST" action="{% url 'pedidos:pedir_conta' %}">
                             {% csrf_token %}
                             <button type="submit">Pedir Conta</button>
                         </form>
@@ -67,7 +67,7 @@ GARFO
     <section id="container-inner-2">
         {% if item_list %}
             {% for item in item_list %}
-            <div onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="card img-card" id="single-card">
+            <div style="cursor:pointer;" onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="card img-card" id="single-card">
                 <div class="left-part">
                     <img id="item-img" src="{{ item.foto_url }}">
                 </div>
@@ -82,7 +82,7 @@ GARFO
                 <div class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
+                            <p style="cursor:pointer;" onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                         </div>
                         <div class="modal-body">
                             <div class="modal-img-container">
@@ -93,7 +93,7 @@ GARFO
                                 <p class="modal-text">{{ item.descricao }}</p>
                                 <p class="modal-text item-price">Preço: R${{ item.preco|stringformat:".2f" }}</p>
                                 {% if pode_pedir %}
-                                    <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                    <form method="POST" action="{% url 'pedidos:fazer_pedido' item.id %}">
                                         {% csrf_token %}
                                         <div>
                                             <label for="observacoes">Observações: </label>
@@ -102,7 +102,7 @@ GARFO
                                         <div id="div-qtde-pedir">
                                             <div id="div-quantidade">
                                                 <label for="quantidade">QTDE:</label>
-                                                <input type="number" name="quantidade" id="quantidade">
+                                                <input type="number" step="1" name="quantidade" id="quantidade" value="1">
                                             </div>
                                             <button type="submit">PEDIR</button>
                                         </div>
@@ -111,7 +111,7 @@ GARFO
                             {% endif %}
 
                             {% if user.gerente %}
-                                <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
                                     {% csrf_token %}
                                     <div>
                                         <label for="id_nome">Nome: </label>
@@ -149,7 +149,7 @@ GARFO
             {% endfor %}
 
             {% if user.gerente %}
-            <div onclick="document.getElementById('modal-add-item').style.display='block'" class="card" id="add-card">
+            <div style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='block'" class="card" id="add-card">
                 <img src="{% static 'plus.svg' %}">
             </div>
 
@@ -158,12 +158,12 @@ GARFO
                 <div class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p onclick="document.getElementById('modal-add-item').style.display='none'" class="close-button">&times</p>
+                            <p style="cursor:pointer;" onclick="document.getElementById('modal-add-item').style.display='none'" class="close-button">&times</p>
                         </div>
                         <div class="modal-body">
                             <p class="modal-title modal-title-mesa">Adicionar item</p>
 
-                            <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                            <form method="POST" action="{% url 'pedidos:create_item' %}">
                                 {% csrf_token %}
                                 <div>
                                     <label for="id_nome">Nome: </label>
@@ -208,7 +208,7 @@ GARFO
         <h3>ITENS INDISPONÍVEIS</h3>
         <section id="container-inner-2">
             {% for item in item_indisp %}
-                <div onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="card img-card" id="single-card">
+                <div style="cursor:pointer;" onclick="document.getElementById('modal-item-{{ item.id }}').style.display='block'" class="card img-card" id="single-card">
                     <div class="left-part">
                         <img id="item-img" src="{{ item.foto_url }}">
                     </div>
@@ -223,32 +223,14 @@ GARFO
                     <div class="modal">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <p onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
+                                <p style="cursor:pointer;" onclick="document.getElementById('modal-item-{{ item.id }}').style.display='none'" class="close-button">&times</p>
                             </div>
                             <div class="modal-body">
                                 <div class="modal-img-container">
                                     <img src="{{ item.foto_url }}" alt="{{ item.nome }}">
                                 </div>
                                 <p class="modal-title">{{ item.nome }}</p>
-                                    {% if user.cliente %}
-                                    <p class="modal-text">{{ item.descricao }}</p>
-                                    <p class="modal-text item-price">Preço: R${{ item.preco|stringformat:".2f" }}</p>
-                                        {% if pode_pedir %}
-                                        <form method="POST" action="{% url 'pedidos:cardapio' %}">
-                                            {% csrf_token %}
-                                            <div>
-                                                <label for="observacoes">Observações: </label>
-                                                <input type="text" name="observacoes" id="observacoes">
-                                            </div>
-                                            <div>
-                                                <input type="number" name="quantidade" id="quantidade">
-                                                <button type="submit">PEDIR</button>
-                                            </div>
-                                        </form>
-                                        {% endif %}
-                                {% endif %}
-                                        
-                                <form method="POST" action="{% url 'pedidos:cardapio' %}">
+                                <form method="POST" action="{% url 'pedidos:update_item' item.id %}">
                                     {% csrf_token %}
                                     <div>
                                         <label for="id_nome">Nome: </label>

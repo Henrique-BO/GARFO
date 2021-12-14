@@ -22,18 +22,45 @@ Lista de contas | GARFO
         {% if contas %}
                 {% for conta in contas %}
 
-                    <div class="card" id="single-card">
+                    <div style="cursor:pointer;" onclick="document.getElementById('modal-conta-{{ conta.id }}').style.display='block'" class="card" id="single-card">
                         <div class="left-part">
                             <div id="table-number"> {{ conta.pedido_set.all.0.cliente.mesa }} | Conta {{ conta.id }}</div>
                             <br>
                             <div id="item-name">{{ conta.pedido_set.all.0.cliente.user }}</div>
+                            <div id="item-name">R${{ totais|get_item:conta.id|floatformat:2 }}</div>
                         </div>
 
-                        <form id="item-form" method="POST" action="{% url 'pedidos:detail_conta' conta.id %}">
+                        <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
                             {% csrf_token %}
                             <button type="submit"><img src="{% static 'check.svg' %}"></button>
                         </form>
                                 
+                    </div>
+
+
+                    <div id="modal-conta-{{ conta.id }}" class="background">
+                        <div class="modal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p style="cursor:pointer;" onclick="document.getElementById('modal-conta-{{ conta.id }}').style.display='none'" class="close-button">&times</p>
+                                </div>
+                                <div class="modal-body">                
+                                    <p>{{ conta }}:</p>
+                                    <ul>
+                                        {% for pedido in conta.pedido_set.all %}
+                                            <li>{{ pedido.item.nome }}: R${{ pedido.item.preco|floatformat:2 }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    
+                                    <p>Total: R${{ totais|get_item:conta.id|floatformat:2 }}</p>
+
+                                    <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit">Conta Paga</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                 {% endfor %}

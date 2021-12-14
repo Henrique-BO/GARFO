@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, permission_required
+from django.template.defaulttags import register
 
 from pedidos.forms import ItemForm, MesaForm, PedidoForm
 from .models import Conta, Mesa, Pedido, Item
@@ -83,13 +84,14 @@ def fazer_pedido(request, item_id):
     if request.method == 'POST':
         pedido_form = PedidoForm(request.POST)
         if pedido_form.is_valid():
-            pedido = Pedido(
-                cliente=request.user.cliente,
-                item=item,
-                observacoes=pedido_form.cleaned_data['observacoes'],
-                time_realizado=timezone.localtime(timezone.now()),
-            )
-            pedido.save()
+            for _ in range(int(request.POST['quantidade'])):
+                pedido = Pedido(
+                    cliente=request.user.cliente,
+                    item=item,
+                    observacoes=pedido_form.cleaned_data['observacoes'],
+                    time_realizado=timezone.localtime(timezone.now()),
+                )
+                pedido.save()
     return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
@@ -166,23 +168,23 @@ def pedir_conta(request):
     return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
-def detail_conta(request, conta_id):
-    conta = get_object_or_404(Conta, pk=conta_id)
+def pagar_conta(request, conta_id):
     if request.method == 'POST':
+        conta = get_object_or_404(Conta, pk=conta_id)
         conta.pago = True
         conta.save()
-        return HttpResponseRedirect(reverse('pedidos:list_contas'))
-    total = 0
-    for pedido in conta.pedido_set.all():
-        total += pedido.item.preco
-    context = {'conta': conta, 'total': total}
-    return render(request, 'pedidos/detail_conta.html', context)
+    return HttpResponseRedirect(reverse('pedidos:list_contas'))
 
 @login_required
 @permission_required('pedidos.view_conta')
 def list_contas(request):
     contas = Conta.objects.filter(pago=False)
-    context = {'contas': contas}
+    totais = {}
+    for conta in contas:
+        totais[conta.id] = 0
+        for pedido in conta.pedido_set.all():
+            totais[conta.id] += pedido.item.preco
+    context = {'contas': contas, 'totais': totais}
     return render(request, 'pedidos/list_contas.html', context)
 
 @login_required
@@ -226,3 +228,8 @@ def update_mesa(request, mesa_id):
     return HttpResponseRedirect(
         reverse('pedidos:list_mesas')
     )
+
+
+@register.filter
+def get_item(dict, key):
+    return dict.get(key)
