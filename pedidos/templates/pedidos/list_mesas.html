@@ -49,7 +49,7 @@ Lista de Mesas | GARFO
                                 <p class="modal-title modal-title-mesa">Mesa {{ mesa.id }}</p>
                                         
                                 {% if user.gerente %}
-                                    <form method="POST" action="{% url 'pedidos:list_mesas' %}">
+                                    <form method="POST" action="{% url 'pedidos:update_mesa' mesa.id %}">
                                         {% csrf_token %}
                                         <div>
                                             <label for="id_capacidade">Capacidade: </label>
@@ -91,7 +91,7 @@ Lista de Mesas | GARFO
                     </div>
                     <div class="modal-body">
                         <p class="modal-title modal-title-mesa">Adicionar mesa</p>
-                            <form method="POST" action="{% url 'pedidos:list_mesas' %}">
+                            <form method="POST" action="{% url 'pedidos:create_mesa' %}">
                                 {% csrf_token %}
                                 <div>
                                     <label for="id_capacidade">Capacidade: </label>
@@ -148,7 +148,7 @@ Lista de Mesas | GARFO
                                 <p class="modal-title modal-title-mesa"> Mesa {{ mesa.id }}</p>
                                         
                                 {% if user.gerente %}
-                                    <form method="POST" action="{% url 'pedidos:list_mesas' %}">
+                                    <form method="POST" action="{% url 'pedidos:update_mesa' mesa.id %}">
                                         {% csrf_token %}
                                         <div>
                                             <label for="id_capacidade">Capacidade: </label>
