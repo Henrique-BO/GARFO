@@ -496,6 +496,11 @@
   color: var(--roxo-claro);
 }
 
+#body_cinza .errortext {
+  font-size: 16px;
+}
+
+
 #body_roxo a, #body_roxo a:visited{
   font-weight: bold;
   color: var(--roxo-claro);
@@ -577,6 +582,10 @@ a, a:visited {
 }
 
 p a {
+  color: var(--roxo-escuro)!important;
+}
+
+p a:hover {
   color: var(--roxo-claro)!important;
 }
 

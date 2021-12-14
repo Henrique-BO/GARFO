@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Entrar
+Entrar | GARFO
 {% endblock title %}
 
 {% block content %}
@@ -18,16 +18,18 @@ Entrar
         {% csrf_token %}
         {{ form.as_p }}
         
+        <br>
+        
         {% if form.errors %}
-        <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+            <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
         {% endif %}
 
         {% if next %}
-        {% if user.is_authenticated %}
-        <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
-        {% else %}
-        <p class="errortext">Faça o login para ver esta página.</p>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
+            {% else %}
+                <p class="errortext">Faça o login para ver esta página.</p>
+            {% endif %}
         {% endif %}
         <button id="button" type="submit" value="login">Entrar</button>
         <input type="hidden" name="next" value="{{ next }}">
