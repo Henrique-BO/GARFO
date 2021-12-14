@@ -76,7 +76,8 @@ Lista de Mesas | GARFO
                 </div>
             {% endfor %}
         {% endif %}
-
+        
+        {% if user.gerente %}
         <div onclick="document.getElementById('modal-add-mesa').style.display='block'" class="card" id="add-card">
             <img src="{% static 'plus.svg' %}">
         </div>
@@ -90,8 +91,6 @@ Lista de Mesas | GARFO
                     </div>
                     <div class="modal-body">
                         <p class="modal-title modal-title-mesa">Adicionar mesa</p>
-                                
-                        {% if user.gerente %}
                             <form method="POST" action="{% url 'pedidos:list_mesas' %}">
                                 {% csrf_token %}
                                 <div>
@@ -111,12 +110,12 @@ Lista de Mesas | GARFO
 
                                 <button type="submit">ADICIONAR</button>
                             </form>
-                        {% endif %}
                     </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
     
     </section> 
 
