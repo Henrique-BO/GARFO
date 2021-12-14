@@ -13,9 +13,11 @@ Chef de Cozinha | GARFO
 
 
 <main id="container-principal">
-
+    
     <div id="img-container"><img src="{% static 'logo.svg' %}"></div> 
-
+    
+    <h1>{{ user }}</h1>
+    
     <div id="button-container">
     <a href="{% url 'pedidos:pedidos' %}"> 
             <button>
