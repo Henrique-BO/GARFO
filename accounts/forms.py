@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User
 from django.contrib.auth.models import User
 from django.forms import fields
 from cpf_field.models import MyModel
+from cpf_field.validators import validate_cpf
 
 from accounts.models import Cliente, Gerente, Garcom, ChefCozinha
 from pedidos.models import Mesa
@@ -31,11 +32,15 @@ class ClienteCreationForm(UserCreationForm):
          'class': 'form-control',
          'placeholder': 'Nome',
       }))
-   cpf = MyModel._meta.get_field('cpf').formfield(widget=forms.NumberInput(
-      attrs = {
-         'class': 'form-control',
-         'placeholder': 'CPF',
-      }))
+   cpf = MyModel._meta.get_field('cpf').formfield(
+      widget=forms.NumberInput(
+         attrs = {
+            'class': 'form-control',
+            'placeholder': 'CPF',
+         }
+      ),
+      validators=[validate_cpf]
+   )
    password1 = forms.CharField(widget=forms.PasswordInput(
       attrs = {
          'class': 'form-control',

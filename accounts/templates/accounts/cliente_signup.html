@@ -15,6 +15,15 @@ Cadastrar | GARFO
 <main id="container-central" action="{% url 'accounts:cliente_signup' %}">
     <h1>CADASTRAR</h1>
 
+    {% if form.errors %}
+        {% for field in form.errors %}
+            {% for error in form.errors|get_item:field %}
+                <p class="errortext">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
