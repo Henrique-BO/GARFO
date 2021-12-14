@@ -210,7 +210,7 @@
   margin: 0;
   display: flex;
   align-items: center;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 #table-info {
@@ -687,6 +687,10 @@ form ul li, form ul {
   #container-inner-2 {
     align-self: center;
     justify-content: center;
+  }
+
+  #single-card, .card {
+    margin: 12px;
   }
 
   .modal {

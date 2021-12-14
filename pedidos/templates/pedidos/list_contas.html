@@ -24,7 +24,7 @@ Lista de contas | GARFO
 
                     <div style="cursor:pointer;" onclick="document.getElementById('modal-conta-{{ conta.id }}').style.display='block'" class="card" id="single-card">
                         <div class="left-part">
-                            <div id="table-number"> {{ conta.pedido_set.all.0.cliente.mesa }} | Conta {{ conta.id }}</div>
+                            <div id="table-number">{{ conta.pedido_set.all.0.cliente.mesa }} &nbsp | &nbsp Conta {{ conta.id }}</div>
                             <br>
                             <div id="item-name">{{ conta.pedido_set.all.0.cliente.user }}</div>
                             <div id="item-name">R${{ totais|get_item:conta.id|floatformat:2 }}</div>
