@@ -1,10 +1,9 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from cpf_field.forms import CPFFieldForm
+from django.core.exceptions import ValidationError
 
 from accounts.forms import ClienteCreationForm, ClientLoginForm
 from accounts.models import Cliente
@@ -38,14 +37,32 @@ def cliente_login(request):
             try:
                 cliente = user.cliente
                 cliente.mesa = form.cleaned_data['mesa']
-                print(cliente.mesa)
                 cliente.save()
                 login(request, form.get_user())
                 return HttpResponseRedirect(reverse('pedidos:index'))
             except:
-                pass
+                form.add_error("username", "Usuário não é um Cliente. Favor entrar pelo login da Equipe.")
     else:
         form = ClientLoginForm()
 
     context = {'form': form}
     return render(request, 'accounts/cliente_login.html', context)
+
+def equipe_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            try:
+                user.cliente
+                form.add_error("username", "Usuário não faz parte da Equipe. Favor entrar pelo login de Cliente.")
+            except:
+                login(request, form.get_user()) 
+                if request.POST['next']:
+                    return HttpResponseRedirect(request.POST['next'])
+                return HttpResponseRedirect(reverse('pedidos:index'))
+    else:
+        form = AuthenticationForm()
+
+    context = {'form': form}
+    return render(request, 'accounts/equipe_login.html', context)

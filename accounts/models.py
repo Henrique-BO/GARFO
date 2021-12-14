@@ -82,8 +82,6 @@ PERMISSIONS = {
 def update_permissions(sender, instance, created, **kwargs):
     group_name = sender.__name__
     group, created = Group.objects.get_or_create(name=group_name)
-    print("Atualizando permissões do grupo")
-    print(group_name)
     for model_name in PERMISSIONS[group_name]:
         for permission_name in PERMISSIONS[group_name][model_name]:
             name = f"Can {permission_name} {model_name.lower()}"

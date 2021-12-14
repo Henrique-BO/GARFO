@@ -16,7 +16,7 @@ GARFO
 
     <h1>Entrar</h1>
 
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'accounts:equipe_login' %}">
         {% csrf_token %}
         <input type="input" class="form-control" name="username" id="inputUser" placeholder="Nome" required >
         <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Senha" required>
@@ -24,7 +24,11 @@ GARFO
         <br>
 
         {% if form.errors %}
-        <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+            {% for field in form.errors %}
+                {% for error in form.errors|get_item:field %}
+                    <p class="errortext">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
         {% endif %}
 
         {% if next %}

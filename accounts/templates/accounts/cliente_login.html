@@ -14,6 +14,7 @@ Entrar | GARFO
 <main id="container-central">
     <h1>ENTRAR</h1>
 
+    
     <form method="post" action="{% url 'accounts:cliente_login' %}">
         {% csrf_token %}
         {{ form.as_p }}
@@ -21,20 +22,24 @@ Entrar | GARFO
         <br>
         
         {% if form.errors %}
-            <p class="errortext">Sua senha e nome de usuário não correspondem. Tente novamente.</p>
+            {% for field in form.errors %}
+                {% for error in form.errors|get_item:field %}
+                    <p class="errortext">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
         {% endif %}
-
+        
         {% if next %}
-            {% if user.is_authenticated %}
-                <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
-            {% else %}
-                <p class="errortext">Faça o login para ver esta página.</p>
-            {% endif %}
+        {% if user.is_authenticated %}
+        <p class="errortext">Sua conta não possui acesso a esta página. Para prosseguir, faça um login com uma conta que tenha.</p>
+        {% else %}
+        <p class="errortext">Faça o login para ver esta página.</p>
+        {% endif %}
         {% endif %}
         <button id="button" type="submit" value="login">Entrar</button>
         <input type="hidden" name="next" value="{{ next }}">
     </form>
-
+    
     <p> Não tem uma conta? <a href="{% url 'accounts:cliente_signup' %}">Cadastre-se!</a></p>
 </main>
 {% endblock %}
