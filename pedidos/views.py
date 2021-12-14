@@ -74,7 +74,7 @@ def create_item(request):
         if item_form.is_valid():
             item = Item(**item_form.cleaned_data)
             item.save()
-    return HttpResponseRedirect(reverse('pedidos:cardapio', args=(item.pk,)))
+    return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 
 @login_required
@@ -168,6 +168,7 @@ def pedir_conta(request):
     return HttpResponseRedirect(reverse('pedidos:cardapio'))
 
 @login_required
+@permission_required('pedidos.change_conta')
 def pagar_conta(request, conta_id):
     if request.method == 'POST':
         conta = get_object_or_404(Conta, pk=conta_id)

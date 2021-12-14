@@ -29,11 +29,12 @@ Lista de contas | GARFO
                             <div id="item-name">{{ conta.pedido_set.all.0.cliente.user }}</div>
                             <div id="item-name">R${{ totais|get_item:conta.id|floatformat:2 }}</div>
                         </div>
-
-                        <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
-                            {% csrf_token %}
-                            <button type="submit"><img src="{% static 'check.svg' %}"></button>
-                        </form>
+                        {% if user.garcom %}
+                            <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
+                                {% csrf_token %}
+                                <button type="submit"><img src="{% static 'check.svg' %}"></button>
+                            </form>
+                        {% endif %}
                                 
                     </div>
 
@@ -54,10 +55,12 @@ Lista de contas | GARFO
                                     
                                     <p>Total: R${{ totais|get_item:conta.id|floatformat:2 }}</p>
 
-                                    <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
-                                        {% csrf_token %}
-                                        <button type="submit">Conta Paga</button>
-                                    </form>
+                                    {% if user.garcom %}
+                                        <form id="item-form" method="POST" action="{% url 'pedidos:pagar_conta' conta.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit">Conta Paga</button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
