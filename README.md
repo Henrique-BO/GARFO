@@ -19,6 +19,8 @@ Para abrir localmente o GARFO, execute
 
 `python manage.py runserver`
 
+> Obs.: Da primeira vez, é necessário aplicar as migrações com `python manage.py migrate`
+
 O GARFO também está hospedado publicamente no Heroku em
 
 https://sistema-garfo.herokuapp.com/
