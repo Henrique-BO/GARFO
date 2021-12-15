@@ -73,6 +73,7 @@ Pedidos | GARFO
                         <div id="table-number">{{ pedido.cliente.mesa }}</div>
                         <br>
                         <div id="item-name">{{ pedido.item.nome }}</div>
+                        <div id="observacao">Obs.: {{ pedido.observacoes }}</div>
                     </div>
                     {% if user.chefcozinha %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
@@ -97,6 +98,7 @@ Pedidos | GARFO
                         <div id="table-number">{{ pedido.cliente.mesa }}</div>
                         <br>
                         <div id="item-name">{{ pedido.item.nome }}</div>
+                        <div id="observacao">Obs.: {{ pedido.observacoes }}</div>
                     </div>
                     {% if user.garcom %}
                         <form method="POST" action="{% url 'pedidos:pedidos' %}">
