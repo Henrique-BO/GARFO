@@ -39,6 +39,8 @@ def cliente_login(request):
                 cliente.mesa = form.cleaned_data['mesa']
                 cliente.save()
                 login(request, form.get_user())
+                if request.POST['next']:
+                    return HttpResponseRedirect(request.POST['next'])
                 return HttpResponseRedirect(reverse('pedidos:index'))
             except:
                 form.add_error("username", "Usuário não é um Cliente. Favor entrar pelo login da Equipe.")

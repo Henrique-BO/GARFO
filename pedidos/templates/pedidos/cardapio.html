@@ -120,7 +120,7 @@ GARFO
 
                                     <div>
                                         <label for="id_preco">Preço: </label>
-                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
+                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
                                     </div>
 
                                     <div>
@@ -173,7 +173,7 @@ GARFO
 
                             <div>
                                 <label for="id_preco">Preço: </label>
-                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
+                                <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
                             </div>
 
                             <div>
@@ -239,7 +239,7 @@ GARFO
 
                                     <div>
                                         <label for="id_preco">Preço: </label>
-                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|floatformat:2 }}'>
+                                        <input type="number" step="any" name="preco" required id="id_preco" value='{{ item.preco|stringformat:".2f" }}'>
                                     </div>
 
                                     <div>

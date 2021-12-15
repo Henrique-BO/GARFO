@@ -149,4 +149,4 @@ django_heroku.settings(locals())
 
 LOGIN_REDIRECT_URL = 'pedidos:index'
 LOGOUT_REDIRECT_URL = 'pedidos:index'
-LOGIN_URL = 'login'
+LOGIN_URL = 'accounts:equipe_login'
